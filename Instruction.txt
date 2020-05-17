@@ -1,0 +1,2 @@
+jServer: use Data.xml as database.
+jMessenger: use History.xml to show chat log.
