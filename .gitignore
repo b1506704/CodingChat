@@ -1,1 +1,5 @@
-/nbproject/private/
+*.properties
+*.class
+
+jMessenger/build/classes/.netbeans_automatic_build
+jMessenger/build/classes/.netbeans_update_resources
