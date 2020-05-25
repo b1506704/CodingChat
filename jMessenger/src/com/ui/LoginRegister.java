@@ -6,7 +6,15 @@
 package com.ui;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import keeptoo.Drag;
 
@@ -24,20 +32,44 @@ public class LoginRegister extends javax.swing.JFrame {
         initComponents();
     }
     public static void initSetting(){
-        LoginRegister loginForm = new LoginRegister();
-        loginForm.setBackground(new Color(0,0,0,0));
-        ImageIcon icon= new ImageIcon(LoginRegister.class.getResource("logout.png"));
-//        ImageIcon icon = (ImageIcon) loginForm.btnLogout.getIcon();
-        Image img = icon.getImage();
-        Image newimg = img.getScaledInstance(0x32, 30,  java.awt.Image.SCALE_SMOOTH);
-        ImageIcon newIcon = new ImageIcon(newimg);
-       
-        
-        
-        loginForm.btnLogout.setIcon(newIcon);
-        
-        
-        loginForm.setVisible(true);
+        try {
+            //render and change icon of a button
+            LoginRegister loginForm = new LoginRegister();
+            loginForm.setBackground(new Color(0,0,0,0));
+            ImageIcon icon= new ImageIcon(LoginRegister.class.getResource("logout.png"));
+            Image img = icon.getImage();
+            Image newimg = img.getScaledInstance(0x32, 30,  java.awt.Image.SCALE_SMOOTH);
+            ImageIcon newIcon = new ImageIcon(newimg);
+            loginForm.btnLogout.setIcon(newIcon);
+            //change font of a swing element
+            InputStream is = LoginRegister.class.getResourceAsStream("Vanessas Valentine.otf");
+            InputStream is1 = LoginRegister.class.getResourceAsStream("Lavina 4F.otf");
+            InputStream is2 = LoginRegister.class.getResourceAsStream("FVF Fernando 08.ttf");
+            InputStream is3 = LoginRegister.class.getResourceAsStream("Lavina 4F.otf");
+            InputStream is4 = LoginRegister.class.getResourceAsStream("VL COCO.OTF");
+           // InputStream is5 = LoginRegister.class.getResourceAsStream("FS Endless Sorrow Regular.otf");
+            
+            Font font = Font.createFont(Font.TRUETYPE_FONT, is);
+            Font font1 = Font.createFont(Font.TRUETYPE_FONT, is1);
+            Font font2 = Font.createFont(Font.TRUETYPE_FONT, is2);
+            Font font3 = Font.createFont(Font.TRUETYPE_FONT, is3);
+            Font font4 = Font.createFont(Font.TRUETYPE_FONT, is4);
+           // Font font5 = Font.createFont(Font.TRUETYPE_FONT, is5);
+            
+            loginForm.lblTitle1.setFont(font.deriveFont(70f));
+            loginForm.lblTitle2.setFont(font1.deriveFont(30f));
+            loginForm.lblID.setFont(font2.deriveFont(14f));
+            loginForm.lblPassword.setFont(font2.deriveFont(14f));
+            loginForm.txtID.setFont(font3.deriveFont(13f));
+            loginForm.txtPassword.setFont(font3.deriveFont(14f));
+            loginForm.btnLogin.setFont(font4.deriveFont(30f));
+            loginForm.btnRegister.setFont(font4.deriveFont(30f));
+            loginForm.btnHidePass.setFont(font2.deriveFont(9f));
+            //show frame
+            loginForm.setVisible(true);
+        } catch (FontFormatException | IOException ex) {
+            Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,13 +83,14 @@ public class LoginRegister extends javax.swing.JFrame {
         backGround = new keeptoo.KGradientPanel();
         btnRegister = new keeptoo.KButton();
         btnLogout = new keeptoo.KButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
+        lblID = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        lblTitle2 = new javax.swing.JLabel();
         btnLogin = new keeptoo.KButton();
-        jLabel4 = new javax.swing.JLabel();
+        lblTitle1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
+        btnHidePass = new keeptoo.KButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -118,21 +151,23 @@ public class LoginRegister extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setToolTipText("*");
+        txtID.setBackground(new java.awt.Color(153, 255, 153));
+        txtID.setFont(new java.awt.Font("Perpetua Titling MT", 0, 12)); // NOI18N
+        txtID.setForeground(new java.awt.Color(51, 0, 51));
 
-        jLabel1.setForeground(new java.awt.Color(51, 0, 255));
-        jLabel1.setText("ID");
+        lblID.setForeground(new java.awt.Color(51, 0, 255));
+        lblID.setText("ID");
 
-        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
-        jLabel2.setText("Password");
-        jLabel2.setToolTipText("6-14 characters");
+        lblPassword.setForeground(new java.awt.Color(51, 0, 255));
+        lblPassword.setText("Password");
+        lblPassword.setToolTipText("6-14 characters");
 
-        jLabel3.setFont(new java.awt.Font("OCR A Extended", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setLabelFor(this);
-        jLabel3.setText(" Chat");
-        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        lblTitle2.setFont(new java.awt.Font("OCR A Extended", 0, 48)); // NOI18N
+        lblTitle2.setForeground(new java.awt.Color(255, 0, 0));
+        lblTitle2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle2.setLabelFor(this);
+        lblTitle2.setText(" Chat");
+        lblTitle2.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
         btnLogin.setBorder(null);
         btnLogin.setForeground(new java.awt.Color(102, 255, 102));
@@ -151,82 +186,110 @@ public class LoginRegister extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("OCR A Extended", 0, 48)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 153));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setLabelFor(this);
-        jLabel4.setText("Coding");
-        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        lblTitle1.setFont(new java.awt.Font("OCR A Extended", 0, 48)); // NOI18N
+        lblTitle1.setForeground(new java.awt.Color(102, 0, 102));
+        lblTitle1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle1.setLabelFor(this);
+        lblTitle1.setText("Coding");
+        lblTitle1.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+
+        txtPassword.setBackground(new java.awt.Color(153, 255, 153));
+        txtPassword.setFont(new java.awt.Font("Perpetua Titling MT", 0, 12)); // NOI18N
+        txtPassword.setForeground(new java.awt.Color(51, 0, 51));
+
+        btnHidePass.setBorder(null);
+        btnHidePass.setForeground(new java.awt.Color(102, 255, 102));
+        btnHidePass.setText("Unhide");
+        btnHidePass.setFont(new java.awt.Font("UD Digi Kyokasho NK-B", 0, 11)); // NOI18N
+        btnHidePass.setkBorderRadius(200);
+        btnHidePass.setkForeGround(new java.awt.Color(255, 255, 153));
+        btnHidePass.setkHoverForeGround(new java.awt.Color(0, 0, 0));
+        btnHidePass.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnHidePass.setkStartColor(new java.awt.Color(255, 102, 153));
+        btnHidePass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHidePassActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backGroundLayout = new javax.swing.GroupLayout(backGround);
         backGround.setLayout(backGroundLayout);
         backGroundLayout.setHorizontalGroup(
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backGroundLayout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(159, 159, 159)
-                .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(116, 116, 116))
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(backGroundLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblID)
+                    .addComponent(lblPassword))
                 .addGap(54, 54, 54)
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(43, 43, 43)
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-                    .addComponent(jTextField1)))
+                    .addGroup(backGroundLayout.createSequentialGroup()
+                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, backGroundLayout.createSequentialGroup()
+                                .addComponent(lblTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtID, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnHidePass, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 70, Short.MAX_VALUE))
+                    .addGroup(backGroundLayout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(154, 154, 154))))
         );
         backGroundLayout.setVerticalGroup(
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backGroundLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backGroundLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                        .addComponent(lblTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                        .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)))
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblID))
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backGroundLayout.createSequentialGroup()
                         .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(backGroundLayout.createSequentialGroup()
-                                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 26, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addGap(32, 32, 32)
+                                .addComponent(lblPassword))
+                            .addGroup(backGroundLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addComponent(btnHidePass, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21)))
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backGround, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(backGround, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(backGround, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(backGround, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -249,12 +312,22 @@ public class LoginRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        // TODO add your handling code here:
+        //add ID and Password to Socket and database
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        // get ID and password input to check with Socket and database
     }//GEN-LAST:event_btnLoginActionPerformed
+    int count=0;
+    private void btnHidePassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHidePassActionPerformed
+        // unhide and hide password with count
+        if (count % 2==0) {
+            this.txtPassword.setEchoChar((char)0);
+        } else {
+            this.txtPassword.setEchoChar('*');
+        }
+        count++;
+    }//GEN-LAST:event_btnHidePassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,14 +369,15 @@ public class LoginRegister extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private keeptoo.KGradientPanel backGround;
+    private keeptoo.KButton btnHidePass;
     private keeptoo.KButton btnLogin;
     private keeptoo.KButton btnLogout;
     private keeptoo.KButton btnRegister;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lblID;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblTitle1;
+    private javax.swing.JLabel lblTitle2;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }
