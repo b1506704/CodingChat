@@ -313,10 +313,17 @@ public class LoginRegister extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         //add ID and Password to Socket and database
+        
+        
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // get ID and password input to check with Socket and database
+        Dashboard dashBoard = new Dashboard();
+        dashBoard.setVisible(true);
+        dashBoard.toFront();
+        
+        
     }//GEN-LAST:event_btnLoginActionPerformed
     int count=0;
     private void btnHidePassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHidePassActionPerformed

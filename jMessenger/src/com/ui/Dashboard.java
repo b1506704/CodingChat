@@ -5,7 +5,13 @@
  */
 package com.ui;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import keeptoo.Drag;
 /**
@@ -17,10 +23,43 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
+    
+    
+    
     public Dashboard() {
         initComponents();
     }
-
+    public static void initSetting(){
+        try {
+            Dashboard dashBoard = new Dashboard();
+            dashBoard.setBackground(new Color(0,0,0,0));
+            dashBoard.backGround.setBackground(new Color(0,0,0,0));
+            dashBoard.conversation.setBackground(new Color(0,0,0,0));
+            dashBoard.friendList.setBackground(new Color(0,0,0,0));
+            InputStream is =Dashboard.class.getResourceAsStream("Vanessas Valentine.otf");
+            InputStream is1 = Dashboard.class.getResourceAsStream("Lavina 4F.otf");
+            InputStream is2 = Dashboard.class.getResourceAsStream("VL COCO.OTF");
+            InputStream is3 = Dashboard.class.getResourceAsStream("FVF Fernando 08.ttf");
+            
+            Font font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(20f);
+            Font font1 = Font.createFont(Font.TRUETYPE_FONT, is1).deriveFont(7f);
+            Font font2 = Font.createFont(Font.TRUETYPE_FONT, is2).deriveFont(16f);
+            Font font3 = Font.createFont(Font.TRUETYPE_FONT, is3).deriveFont(9f);
+            
+            dashBoard.btnSend.setFont(font2);
+            dashBoard.btnLogout.setFont(font2);
+            dashBoard.txtReply.setFont(font);
+            dashBoard.btnConversation.setFont(font3);
+            
+            
+            dashBoard.setVisible(true);
+        } catch (FontFormatException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,21 +69,179 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        backGround = new keeptoo.KGradientPanel();
+        conversation = new keeptoo.KGradientPanel();
+        txtReply = new javax.swing.JTextField();
+        btnSend = new keeptoo.KButton();
+        friendList = new keeptoo.KGradientPanel();
+        btnLogout = new keeptoo.KButton();
+        btnConversation = new keeptoo.KButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("dashBoard"); // NOI18N
+        setUndecorated(true);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
+
+        backGround.setkBorderRadius(70);
+
+        conversation.setBackground(new java.awt.Color(255, 0, 255));
+        conversation.setkBorderRadius(80);
+        conversation.setkEndColor(new java.awt.Color(51, 153, 255));
+        conversation.setkStartColor(new java.awt.Color(153, 255, 255));
+
+        javax.swing.GroupLayout conversationLayout = new javax.swing.GroupLayout(conversation);
+        conversation.setLayout(conversationLayout);
+        conversationLayout.setHorizontalGroup(
+            conversationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 719, Short.MAX_VALUE)
+        );
+        conversationLayout.setVerticalGroup(
+            conversationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 337, Short.MAX_VALUE)
+        );
+
+        txtReply.setText("jTextField1");
+
+        btnSend.setText("Send");
+        btnSend.setkBorderRadius(100);
+        btnSend.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSend.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSend.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnSend.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSend.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSend.setkStartColor(new java.awt.Color(255, 102, 255));
+
+        friendList.setBackground(new java.awt.Color(255, 0, 255));
+        friendList.setkBorderRadius(30);
+        friendList.setkEndColor(new java.awt.Color(153, 255, 153));
+        friendList.setkStartColor(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout friendListLayout = new javax.swing.GroupLayout(friendList);
+        friendList.setLayout(friendListLayout);
+        friendListLayout.setHorizontalGroup(
+            friendListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 178, Short.MAX_VALUE)
+        );
+        friendListLayout.setVerticalGroup(
+            friendListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 337, Short.MAX_VALUE)
+        );
+
+        btnLogout.setText("Logout");
+        btnLogout.setkBorderRadius(100);
+        btnLogout.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnLogout.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnLogout.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnLogout.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnLogout.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnLogout.setkStartColor(new java.awt.Color(255, 102, 255));
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        btnConversation.setText("Conversation 1");
+        btnConversation.setkBorderRadius(25);
+        btnConversation.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnConversation.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnConversation.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnConversation.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnConversation.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnConversation.setkStartColor(new java.awt.Color(255, 102, 255));
+        btnConversation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConversationActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout backGroundLayout = new javax.swing.GroupLayout(backGround);
+        backGround.setLayout(backGroundLayout);
+        backGroundLayout.setHorizontalGroup(
+            backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backGroundLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backGroundLayout.createSequentialGroup()
+                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, backGroundLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addComponent(conversation, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(friendList, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+                    .addGroup(backGroundLayout.createSequentialGroup()
+                        .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        backGroundLayout.setVerticalGroup(
+            backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backGroundLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(conversation, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(backGround, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(backGround, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        // TODO add your handling code here:
+        new Drag(this.rootPane).onPress(evt);
+    }//GEN-LAST:event_formMousePressed
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        // TODO add your handling code here:
+         new Drag(this.rootPane).moveWindow(evt);
+    }//GEN-LAST:event_formMouseDragged
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+         
+        LoginRegister loginRegister = new LoginRegister();
+        loginRegister.toFront();
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnConversationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConversationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConversationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -73,14 +270,24 @@ public class Dashboard extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+                initSetting();
+                
             }
+            
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private keeptoo.KGradientPanel backGround;
+    private keeptoo.KButton btnConversation;
+    private keeptoo.KButton btnLogout;
+    private keeptoo.KButton btnSend;
+    private keeptoo.KGradientPanel conversation;
+    private keeptoo.KGradientPanel friendList;
+    private javax.swing.JTextField txtReply;
     // End of variables declaration//GEN-END:variables
 }
