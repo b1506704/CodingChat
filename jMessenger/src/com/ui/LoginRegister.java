@@ -8,9 +8,7 @@ package com.ui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -31,6 +29,20 @@ public class LoginRegister extends javax.swing.JFrame {
     public LoginRegister() {
         initComponents();
     }
+    
+    public static void connection(){
+        
+        
+    }
+    public void applyFont(javax.swing.JComponent e, String fontDir, float fontSize){
+        try {
+            InputStream is = LoginRegister.class.getResourceAsStream(fontDir);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, is);
+            e.setFont(font.deriveFont(fontSize));
+        } catch (FontFormatException | IOException ex) {
+            Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public static void initSetting(){
         try {
             //render and change icon of a button
@@ -41,33 +53,22 @@ public class LoginRegister extends javax.swing.JFrame {
             Image newimg = img.getScaledInstance(0x32, 30,  java.awt.Image.SCALE_SMOOTH);
             ImageIcon newIcon = new ImageIcon(newimg);
             loginForm.btnLogout.setIcon(newIcon);
-            //change font of a swing element
-            InputStream is = LoginRegister.class.getResourceAsStream("Vanessas Valentine.otf");
-            InputStream is1 = LoginRegister.class.getResourceAsStream("Lavina 4F.otf");
-            InputStream is2 = LoginRegister.class.getResourceAsStream("FVF Fernando 08.ttf");
-            InputStream is3 = LoginRegister.class.getResourceAsStream("Lavina 4F.otf");
-            InputStream is4 = LoginRegister.class.getResourceAsStream("VL COCO.OTF");
-           // InputStream is5 = LoginRegister.class.getResourceAsStream("FS Endless Sorrow Regular.otf");
+            //apply fonts
+            loginForm.applyFont(loginForm.lblTitle1,"Vanessas Valentine.otf",70f);
+            loginForm.applyFont(loginForm.lblTitle2,"Lavina 4F.otf",30f);
+            loginForm.applyFont(loginForm.lblID,"FVF Fernando 08.ttf",14f);
+            loginForm.applyFont(loginForm.lblPassword,"FVF Fernando 08.ttf",14f);
+            loginForm.applyFont(loginForm.txtID,"Lavina 4F.otf",13f);
+            loginForm.applyFont(loginForm.txtPassword,"Lavina 4F.otf",13f);
+            loginForm.applyFont(loginForm.btnLogin,"VL COCO.OTF",30f);
+            loginForm.applyFont(loginForm.btnRegister,"VL COCO.OTF",30f);
+            loginForm.applyFont(loginForm.btnHidePass,"VL COCO.OTF",20f);
             
-            Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-            Font font1 = Font.createFont(Font.TRUETYPE_FONT, is1);
-            Font font2 = Font.createFont(Font.TRUETYPE_FONT, is2);
-            Font font3 = Font.createFont(Font.TRUETYPE_FONT, is3);
-            Font font4 = Font.createFont(Font.TRUETYPE_FONT, is4);
-           // Font font5 = Font.createFont(Font.TRUETYPE_FONT, is5);
             
-            loginForm.lblTitle1.setFont(font.deriveFont(70f));
-            loginForm.lblTitle2.setFont(font1.deriveFont(30f));
-            loginForm.lblID.setFont(font2.deriveFont(14f));
-            loginForm.lblPassword.setFont(font2.deriveFont(14f));
-            loginForm.txtID.setFont(font3.deriveFont(13f));
-            loginForm.txtPassword.setFont(font3.deriveFont(14f));
-            loginForm.btnLogin.setFont(font4.deriveFont(30f));
-            loginForm.btnRegister.setFont(font4.deriveFont(30f));
-            loginForm.btnHidePass.setFont(font2.deriveFont(9f));
             //show frame
             loginForm.setVisible(true);
-        } catch (FontFormatException | IOException ex) {
+            
+        } catch (Exception ex) {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -320,8 +321,10 @@ public class LoginRegister extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // get ID and password input to check with Socket and database
         Dashboard dashBoard = new Dashboard();
-        dashBoard.setVisible(true);
+        //don't setVisible()here ==> 2x setVisible() reset components.
+        Dashboard.initSetting();
         dashBoard.toFront();
+        
         
         
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -369,7 +372,7 @@ public class LoginRegister extends javax.swing.JFrame {
             @Override
             public void run() {
                 initSetting();
-                
+                connection();
             }
         });
     }

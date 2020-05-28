@@ -7,3 +7,5 @@ jMessenger/build/classes/.netbeans_update_resources
 *.class
 *.properties
 *.xml
+*.properties
+*.html
