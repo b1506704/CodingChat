@@ -5,6 +5,7 @@
  */
 package com.ui;
 
+import com.socket.SocketClient;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -22,18 +23,73 @@ import keeptoo.Drag;
  */
 public class LoginRegister extends javax.swing.JFrame {
 
-    /**
+     /**
      * Creates new form LoginRegister
      */
-    
+    public SocketClient client;
+    private int port;
+    private String serverAddr, username, password;
+    public Thread clientThread;
     public LoginRegister() {
         initComponents();
     }
     
-    public static void connection(){
-        
-        
+     /**
+     * @param port the port to set
+     */
+    public void setPort(int port) {
+        this.port = port;
     }
+
+    /**
+     * @param serverAddr the serverAddr to set
+     */
+    public void setServerAddr(String serverAddr) {
+        this.serverAddr = serverAddr;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    /**
+     * @return the port
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * @return the serverAddr
+     */
+    public String getServerAddr() {
+        return serverAddr;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+    //set font for an element of JComponent
     public void applyFont(javax.swing.JComponent e, String fontDir, float fontSize){
         try {
             InputStream is = LoginRegister.class.getResourceAsStream(fontDir);
@@ -43,6 +99,7 @@ public class LoginRegister extends javax.swing.JFrame {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    //set initSetting for the whole frame
     public static void initSetting(){
         try {
             //render and change icon of a button
@@ -324,9 +381,11 @@ public class LoginRegister extends javax.swing.JFrame {
         //don't setVisible()here ==> 2x setVisible() reset components.
         Dashboard.initSetting();
         dashBoard.toFront();
+        //==> Socket code here
+        this.setUsername(this.txtID.getText().trim());
+        this.setPassword(this.txtPassword.getText().trim());
         
-        
-        
+        //
     }//GEN-LAST:event_btnLoginActionPerformed
     int count=0;
     private void btnHidePassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHidePassActionPerformed
@@ -372,7 +431,6 @@ public class LoginRegister extends javax.swing.JFrame {
             @Override
             public void run() {
                 initSetting();
-                connection();
             }
         });
     }
@@ -390,4 +448,6 @@ public class LoginRegister extends javax.swing.JFrame {
     private javax.swing.JTextField txtID;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
+
+   
 }

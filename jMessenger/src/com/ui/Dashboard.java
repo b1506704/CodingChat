@@ -9,16 +9,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
-import javax.swing.event.AncestorListener;
 import keeptoo.Drag;
 /**
  *
@@ -48,17 +49,20 @@ public class Dashboard extends javax.swing.JFrame {
         Action sendMessage = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                messagePane.append(txtReply.getText()+ "\n");
-                txtReply.setText("");
-                txtReply.requestFocus();
-                messagePane.revalidate();
+                if (!"".equals(txtReply.getText()) && !"Please type in here....".equals(txtReply.getText())) {
+                    messageTextArea.append(txtReply.getText()+ "\n");
+                    txtReply.setText("");
+                    txtReply.requestFocus();
+                    //messagePane.revalidate();
+                }
+                
             }
         };
         this.btnSend.getActionMap().put("sendMessage",
                              sendMessage);
     }
-    
-    public void applyFont(javax.swing.JComponent e, String fontDir, float fontSize){
+    //set font for a certain control of JComponent
+    public void applyFont(JComponent e, String fontDir, float fontSize){
         try {
             InputStream is = LoginRegister.class.getResourceAsStream(fontDir);
             Font font = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -70,22 +74,29 @@ public class Dashboard extends javax.swing.JFrame {
     public static void initSetting(){
         try {
             Dashboard dashBoard = new Dashboard();
+            
             dashBoard.setBackground(new Color(0,0,0,0));
             dashBoard.backGround.setBackground(new Color(0,0,0,0));
-            dashBoard.conversation.setBackground(new Color(0,0,0,0));
+            //dashBoard.conversation.setBackground(new Color(0,0,0,0));
+            dashBoard.messageScrollPane.getViewport().setOpaque(false);
+            dashBoard.messageScrollPane.getViewport().setBackground(new Color(0,0,0,0));
             dashBoard.friendList.setBackground(new Color(0,0,0,0));
-            dashBoard.messagePane.setBackground(new Color(0,0,0,0));
+            dashBoard.messageTextArea.setBackground(new Color(0,0,0,0));
             dashBoard.txtReply.setBackground(new Color(0,0,0,0));
             dashBoard.replyPane.setBackground(new Color(0,0,0,0));
+            dashBoard.userPane.setBackground(new Color(0,0,0,0));
             //apply font
             dashBoard.applyFont(dashBoard.btnSend, "VL COCO.OTF", 16f);
             dashBoard.applyFont(dashBoard.btnLogout, "VL COCO.OTF", 16f);
             dashBoard.applyFont(dashBoard.txtReply, "FVF Fernando 08.ttf", 20f);
             dashBoard.applyFont(dashBoard.btnConversation, "FVF Fernando 08.ttf", 9f);
-            dashBoard.applyFont(dashBoard.messagePane, "SVN-Hole Hearted.ttf", 15f);
+            dashBoard.applyFont(dashBoard.messageTextArea, "SVN-Hole Hearted.ttf", 15f);
             //set key binding for send button
             dashBoard.keyBinding();
-
+            //set Layout for FriendList
+            dashBoard.friendList.setLayout(new BoxLayout(dashBoard.friendList, BoxLayout.Y_AXIS));
+            
+            //show the whole frame
             dashBoard.setVisible(true);
             
         } catch (Exception ex) {
@@ -104,14 +115,27 @@ public class Dashboard extends javax.swing.JFrame {
 
         backGround = new keeptoo.KGradientPanel();
         conversation = new keeptoo.KGradientPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        messagePane = new javax.swing.JTextArea();
+        messageScrollPane = new javax.swing.JScrollPane();
+        messageTextArea = new javax.swing.JTextArea();
         btnSend = new keeptoo.KButton();
         friendList = new keeptoo.KGradientPanel();
         btnLogout = new keeptoo.KButton();
         btnConversation = new keeptoo.KButton();
         replyPane = new keeptoo.KGradientPanel();
         txtReply = new javax.swing.JTextField();
+        btnAddFriend = new keeptoo.KButton();
+        userPane = new keeptoo.KGradientPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnSetMagentaBackground = new keeptoo.KButton();
+        btnSetGreenBackground = new keeptoo.KButton();
+        btnSetRedBackground = new keeptoo.KButton();
+        btnGradient = new keeptoo.KButton();
+        userPane1 = new keeptoo.KGradientPanel();
+        jLabel2 = new javax.swing.JLabel();
+        btnSetPinkBackground = new keeptoo.KButton();
+        btnSetTansparentBackground = new keeptoo.KButton();
+        btnSetWhiteBackground = new keeptoo.KButton();
+        btnAddFriend8 = new keeptoo.KButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("dashBoard"); // NOI18N
@@ -135,15 +159,27 @@ public class Dashboard extends javax.swing.JFrame {
         conversation.setBackground(new java.awt.Color(255, 0, 255));
         conversation.setkBorderRadius(30);
         conversation.setkEndColor(new java.awt.Color(0, 204, 204));
+        conversation.setkFillBackground(false);
         conversation.setkStartColor(new java.awt.Color(153, 255, 255));
+        conversation.setkTransparentControls(false);
+        conversation.setOpaque(false);
 
-        messagePane.setEditable(false);
-        messagePane.setColumns(20);
-        messagePane.setRows(5);
-        messagePane.setBorder(null);
-        messagePane.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        messagePane.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(messagePane);
+        messageScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        messageScrollPane.setBorder(null);
+        messageScrollPane.setForeground(new java.awt.Color(255, 255, 255));
+        messageScrollPane.setFocusable(false);
+        messageScrollPane.setOpaque(false);
+
+        messageTextArea.setEditable(false);
+        messageTextArea.setColumns(20);
+        messageTextArea.setForeground(new java.awt.Color(51, 153, 0));
+        messageTextArea.setRows(5);
+        messageTextArea.setCaretColor(new java.awt.Color(51, 51, 51));
+        messageTextArea.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        messageTextArea.setFocusable(false);
+        messageTextArea.setHighlighter(null);
+        messageTextArea.setSelectionColor(new java.awt.Color(0, 0, 0));
+        messageScrollPane.setViewportView(messageTextArea);
 
         javax.swing.GroupLayout conversationLayout = new javax.swing.GroupLayout(conversation);
         conversation.setLayout(conversationLayout);
@@ -151,14 +187,14 @@ public class Dashboard extends javax.swing.JFrame {
             conversationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, conversationLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(messageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
                 .addContainerGap())
         );
         conversationLayout.setVerticalGroup(
             conversationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(conversationLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                .addComponent(messageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -178,8 +214,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         friendList.setBackground(new java.awt.Color(255, 0, 255));
         friendList.setkBorderRadius(30);
-        friendList.setkEndColor(new java.awt.Color(153, 255, 153));
-        friendList.setkStartColor(new java.awt.Color(255, 255, 255));
+        friendList.setkEndColor(new java.awt.Color(0, 204, 204));
+        friendList.setkFillBackground(false);
+        friendList.setkGradientFocus(450);
+        friendList.setkStartColor(new java.awt.Color(153, 255, 255));
 
         javax.swing.GroupLayout friendListLayout = new javax.swing.GroupLayout(friendList);
         friendList.setLayout(friendListLayout);
@@ -189,7 +227,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         friendListLayout.setVerticalGroup(
             friendListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         btnLogout.setText("Logout");
@@ -208,6 +246,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         btnConversation.setText("Conversation 1");
+        btnConversation.setkAllowTab(true);
         btnConversation.setkBorderRadius(25);
         btnConversation.setkForeGround(new java.awt.Color(102, 255, 0));
         btnConversation.setkHoverForeGround(new java.awt.Color(51, 0, 51));
@@ -223,10 +262,18 @@ public class Dashboard extends javax.swing.JFrame {
 
         replyPane.setkBorderRadius(100);
         replyPane.setkEndColor(new java.awt.Color(102, 255, 51));
+        replyPane.setkFillBackground(false);
         replyPane.setkStartColor(new java.awt.Color(51, 255, 255));
+        replyPane.setOpaque(false);
 
-        txtReply.setText("jTextField1");
+        txtReply.setText("Please type in here....");
         txtReply.setBorder(null);
+        txtReply.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtReply.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtReplyMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout replyPaneLayout = new javax.swing.GroupLayout(replyPane);
         replyPane.setLayout(replyPaneLayout);
@@ -239,11 +286,186 @@ public class Dashboard extends javax.swing.JFrame {
         );
         replyPaneLayout.setVerticalGroup(
             replyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(replyPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, replyPaneLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        btnAddFriend.setText("+");
+        btnAddFriend.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnAddFriend.setkBorderRadius(100);
+        btnAddFriend.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnAddFriend.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnAddFriend.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnAddFriend.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnAddFriend.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnAddFriend.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnAddFriend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddFriendActionPerformed(evt);
+            }
+        });
+
+        userPane.setkEndColor(new java.awt.Color(255, 255, 255));
+        userPane.setkFillBackground(false);
+        userPane.setkStartColor(new java.awt.Color(255, 255, 255));
+        userPane.setOpaque(false);
+
+        jLabel1.setText("userDio");
+
+        javax.swing.GroupLayout userPaneLayout = new javax.swing.GroupLayout(userPane);
+        userPane.setLayout(userPaneLayout);
+        userPaneLayout.setHorizontalGroup(
+            userPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userPaneLayout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addComponent(jLabel1)
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+        userPaneLayout.setVerticalGroup(
+            userPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        btnSetMagentaBackground.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetMagentaBackground.setkBorderRadius(100);
+        btnSetMagentaBackground.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetMagentaBackground.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetMagentaBackground.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetMagentaBackground.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetMagentaBackground.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetMagentaBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetMagentaBackgroundActionPerformed(evt);
+            }
+        });
+
+        btnSetGreenBackground.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetGreenBackground.setkBorderRadius(100);
+        btnSetGreenBackground.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetGreenBackground.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetGreenBackground.setkHoverStartColor(java.awt.Color.green);
+        btnSetGreenBackground.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetGreenBackground.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetGreenBackground.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetGreenBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetGreenBackgroundActionPerformed(evt);
+            }
+        });
+
+        btnSetRedBackground.setkBackGroundColor(java.awt.Color.red);
+        btnSetRedBackground.setkBorderRadius(100);
+        btnSetRedBackground.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetRedBackground.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetRedBackground.setkHoverStartColor(java.awt.Color.red);
+        btnSetRedBackground.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetRedBackground.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetRedBackground.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetRedBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetRedBackgroundActionPerformed(evt);
+            }
+        });
+
+        btnGradient.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnGradient.setkBorderRadius(100);
+        btnGradient.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnGradient.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnGradient.setkHoverStartColor(new java.awt.Color(206, 58, 102));
+        btnGradient.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnGradient.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnGradient.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnGradient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGradientActionPerformed(evt);
+            }
+        });
+
+        userPane1.setkEndColor(new java.awt.Color(255, 255, 255));
+        userPane1.setkFillBackground(false);
+        userPane1.setkStartColor(new java.awt.Color(255, 255, 255));
+        userPane1.setOpaque(false);
+
+        jLabel2.setText("Set your theme here");
+
+        javax.swing.GroupLayout userPane1Layout = new javax.swing.GroupLayout(userPane1);
+        userPane1.setLayout(userPane1Layout);
+        userPane1Layout.setHorizontalGroup(
+            userPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userPane1Layout.createSequentialGroup()
+                .addGap(105, 105, 105)
+                .addComponent(jLabel2)
+                .addContainerGap(107, Short.MAX_VALUE))
+        );
+        userPane1Layout.setVerticalGroup(
+            userPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        btnSetPinkBackground.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetPinkBackground.setkBorderRadius(100);
+        btnSetPinkBackground.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetPinkBackground.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetPinkBackground.setkHoverStartColor(java.awt.Color.pink);
+        btnSetPinkBackground.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetPinkBackground.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetPinkBackground.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetPinkBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetPinkBackgroundActionPerformed(evt);
+            }
+        });
+
+        btnSetTansparentBackground.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetTansparentBackground.setkBorderRadius(100);
+        btnSetTansparentBackground.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetTansparentBackground.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetTansparentBackground.setkHoverStartColor(new java.awt.Color(236, 255, 254));
+        btnSetTansparentBackground.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetTansparentBackground.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetTansparentBackground.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetTansparentBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetTansparentBackgroundActionPerformed(evt);
+            }
+        });
+
+        btnSetWhiteBackground.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetWhiteBackground.setkBorderRadius(100);
+        btnSetWhiteBackground.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetWhiteBackground.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetWhiteBackground.setkHoverStartColor(java.awt.Color.white);
+        btnSetWhiteBackground.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetWhiteBackground.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetWhiteBackground.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetWhiteBackground.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetWhiteBackgroundActionPerformed(evt);
+            }
+        });
+
+        btnAddFriend8.setText("+");
+        btnAddFriend8.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnAddFriend8.setkBorderRadius(100);
+        btnAddFriend8.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnAddFriend8.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnAddFriend8.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnAddFriend8.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnAddFriend8.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnAddFriend8.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnAddFriend8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddFriend8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backGroundLayout = new javax.swing.GroupLayout(backGround);
         backGround.setLayout(backGroundLayout);
@@ -253,40 +475,75 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backGroundLayout.createSequentialGroup()
-                        .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(backGroundLayout.createSequentialGroup()
                         .addComponent(replyPane, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 240, Short.MAX_VALUE))
-                    .addGroup(backGroundLayout.createSequentialGroup()
-                        .addComponent(conversation, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE)
+                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                        .addComponent(conversation, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(backGroundLayout.createSequentialGroup()
+                                .addComponent(userPane, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addContainerGap())
+                            .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(backGroundLayout.createSequentialGroup()
+                        .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(backGroundLayout.createSequentialGroup()
+                                .addComponent(btnSetRedBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSetGreenBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSetMagentaBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSetPinkBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSetWhiteBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(9, 9, 9)
+                                .addComponent(btnSetTansparentBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnGradient, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(userPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddFriend8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(147, 147, 147))))
         );
         backGroundLayout.setVerticalGroup(
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(userPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetMagentaBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetGreenBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetRedBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGradient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetPinkBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetTansparentBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetWhiteBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddFriend8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(backGroundLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(backGroundLayout.createSequentialGroup()
-                        .addComponent(conversation, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(replyPane, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(12, Short.MAX_VALUE))
+                        .addComponent(conversation, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(replyPane, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(friendList, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -297,9 +554,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(backGround, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(backGround, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
         );
 
         pack();
@@ -326,11 +581,92 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
-       this.messagePane.append(this.txtReply.getText()+ "\n");
-       this.txtReply.setText("");
-       this.txtReply.requestFocus();
-       this.messagePane.revalidate();
+        String replyMsg= this.txtReply.getText();
+        if (!"".equals(replyMsg) && !"Please type in here....".equals(replyMsg)) {
+            this.messageTextArea.append(replyMsg + "\n");
+            this.txtReply.setText("");
+            this.txtReply.requestFocus();
+           // this.conversation.revalidate();
+        } 
+ 
+       
+     
     }//GEN-LAST:event_btnSendActionPerformed
+
+    private void txtReplyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtReplyMouseClicked
+        // TODO add your handling code here:
+        if ("Please type in here....".equals(this.txtReply.getText())) {
+            this.txtReply.setText("");
+        }
+        
+    }//GEN-LAST:event_txtReplyMouseClicked
+
+    private void btnAddFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFriendActionPerformed
+        // TODO add your handling code here:
+        JTextField friendOne = new JTextField("Dio");
+        
+        this.friendList.add(friendOne);
+       
+        this.friendList.revalidate();
+        this.friendList.repaint();
+    }//GEN-LAST:event_btnAddFriendActionPerformed
+
+    private void btnSetMagentaBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetMagentaBackgroundActionPerformed
+        // TODO add your handling code here:
+        this.backGround.setkStartColor(Color.MAGENTA);
+        this.backGround.setkEndColor(Color.MAGENTA);
+        this.backGround.repaint();
+    }//GEN-LAST:event_btnSetMagentaBackgroundActionPerformed
+
+    private void btnSetGreenBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetGreenBackgroundActionPerformed
+        // TODO add your handling code here:
+        this.backGround.setkStartColor(Color.GREEN);
+        this.backGround.setkEndColor(Color.GREEN);
+        this.backGround.repaint();
+    }//GEN-LAST:event_btnSetGreenBackgroundActionPerformed
+
+    private void btnSetRedBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetRedBackgroundActionPerformed
+        // TODO add your handling code here:
+        this.backGround.setkStartColor(Color.RED);
+        this.backGround.setkEndColor(Color.RED);
+        this.backGround.repaint();
+    }//GEN-LAST:event_btnSetRedBackgroundActionPerformed
+
+    private void btnGradientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGradientActionPerformed
+        // TODO add your handling code here:
+        this.backGround.setkStartColor(Color.WHITE);
+        this.backGround.setkEndColor(Color.PINK);
+        this.backGround.repaint();
+    }//GEN-LAST:event_btnGradientActionPerformed
+
+    private void btnSetPinkBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetPinkBackgroundActionPerformed
+        // TODO add your handling code here:
+        this.backGround.setkStartColor(Color.PINK);
+        this.backGround.setkEndColor(Color.PINK);
+        this.backGround.repaint();
+    }//GEN-LAST:event_btnSetPinkBackgroundActionPerformed
+
+    private void btnSetTansparentBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetTansparentBackgroundActionPerformed
+        // TODO add your handling code here:
+        this.backGround.setkStartColor(new Color(0,0,0,30));
+        this.backGround.setkEndColor(new Color(0,0,0,30));
+        this.backGround.setkFillBackground(true);
+        this.backGround.repaint();
+    }//GEN-LAST:event_btnSetTansparentBackgroundActionPerformed
+
+    private void btnSetWhiteBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetWhiteBackgroundActionPerformed
+        // TODO add your handling code here:
+        this.backGround.setkStartColor(Color.WHITE);
+        this.backGround.setkEndColor(Color.WHITE);
+        this.backGround.repaint();
+    }//GEN-LAST:event_btnSetWhiteBackgroundActionPerformed
+
+    private void btnAddFriend8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFriend8ActionPerformed
+        // TODO add your handling code here:
+        //check lai
+        this.friendList.removeAll();
+        this.friendList.repaint();
+    }//GEN-LAST:event_btnAddFriend8ActionPerformed
    
     /**
      * @param args the command line arguments
@@ -373,15 +709,28 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private keeptoo.KGradientPanel backGround;
+    private keeptoo.KButton btnAddFriend;
+    private keeptoo.KButton btnAddFriend8;
     private keeptoo.KButton btnConversation;
+    private keeptoo.KButton btnGradient;
     private keeptoo.KButton btnLogout;
     private keeptoo.KButton btnSend;
+    private keeptoo.KButton btnSetGreenBackground;
+    private keeptoo.KButton btnSetMagentaBackground;
+    private keeptoo.KButton btnSetPinkBackground;
+    private keeptoo.KButton btnSetRedBackground;
+    private keeptoo.KButton btnSetTansparentBackground;
+    private keeptoo.KButton btnSetWhiteBackground;
     private keeptoo.KGradientPanel conversation;
     private keeptoo.KGradientPanel friendList;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea messagePane;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane messageScrollPane;
+    private javax.swing.JTextArea messageTextArea;
     private keeptoo.KGradientPanel replyPane;
     private javax.swing.JTextField txtReply;
+    private keeptoo.KGradientPanel userPane;
+    private keeptoo.KGradientPanel userPane1;
     // End of variables declaration//GEN-END:variables
 
    
