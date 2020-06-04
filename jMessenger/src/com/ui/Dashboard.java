@@ -330,9 +330,9 @@ public class Dashboard extends javax.swing.JFrame {
         replyPaneLayout.setHorizontalGroup(
             replyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(replyPaneLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         replyPaneLayout.setVerticalGroup(
             replyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -778,7 +778,7 @@ public class Dashboard extends javax.swing.JFrame {
 //-----------------------------------KEY LISTENER EVENT----------------------------//
     private void txtReplyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReplyKeyPressed
         // TODO add your handling code here:
-        this.lblIsTyping.setText("userDIO is typing");
+        this.lblIsTyping.setText("userDIO is typing...");
     }//GEN-LAST:event_txtReplyKeyPressed
 
     private void txtReplyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReplyKeyReleased
