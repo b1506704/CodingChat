@@ -165,7 +165,7 @@ public class LoginRegister extends javax.swing.JFrame {
             loginForm.applyFont(loginForm.txtPassword,"FVF Fernando 08.ttf",17f);
             loginForm.applyFont(loginForm.btnLogin,"VL COCO.OTF",25f);
             loginForm.applyFont(loginForm.btnRegister,"VL COCO.OTF",25f);
-            loginForm.applyFont(loginForm.btnHidePass,"FVF Fernando 08.ttfF",15f);
+            loginForm.applyFont(loginForm.btnHidePass,"FVF Fernando 08.ttf",8f);
             loginForm.applyFont(loginForm.btnLogout, "Vanessas Valentine.otf",40F);
             
             //show frame

@@ -11,3 +11,4 @@ jMessenger/build/classes/.netbeans_update_resources
 *.html
 *.xml
 jMessenger/nbproject/private/private.xml
+*.class

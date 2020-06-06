@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import keeptoo.Drag;
 import keeptoo.KButton;
 import keeptoo.KGradientPanel;
+
 /**
  *
  * @author TsundereMoe
@@ -40,6 +41,7 @@ public class Dashboard extends javax.swing.JFrame {
     }
     public static ArrayList<JComponent> jComponent = new ArrayList<>();
     public static ArrayList<KButton> kComponent = new ArrayList<>();
+
     public void keyBinding() {
         //must include this
         this.getRootPane().setDefaultButton(this.btnSend);
@@ -72,16 +74,15 @@ public class Dashboard extends javax.swing.JFrame {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    //apply Layout, a rounded panel and button with text
 
+    //apply Layout, a rounded panel and button with text
     /**
      *
      * @param motherEle đây là parentPanel để setLayout
      * @param sonEle đây là panel nằm trong motherEle và chứa button
      * grandChilEle
      * @param grandChildEle đây là Kbutton đẻ set thuộc tính
-     * @param grandChildStartColor  
+     * @param grandChildStartColor
      * @param grandChildEndColor
      * @param grandChildForeground
      * @param grandChildHoverColor
@@ -95,52 +96,51 @@ public class Dashboard extends javax.swing.JFrame {
      */
     //chua xai duoc ScrollPanel
     public void applyModernView(KGradientPanel motherEle, KGradientPanel sonEle, KButton grandChildEle, Color grandChildStartColor, Color grandChildEndColor, Color grandChildForeground, Color grandChildHoverColor, Color grandChildHoverEndColor, Color grandChildHoverStartColor, Color grandChildHoverForeground, Color grandChildPressedColor, boolean isAppendGrandChild, boolean isAllowTab, String appendString) {
-            motherEle.setLayout(new BoxLayout(motherEle,BoxLayout.Y_AXIS ));
-            motherEle.setOpaque(false);
-            motherEle.setkFillBackground(false);
-            motherEle.setBackground(new Color(0,0,0,0));
-            motherEle.setBorder(null);
-            //motherEle.setMaximumSize(new Dimension(225, 380));
-            sonEle = new KGradientPanel();
-            sonEle.setBackground(new Color(0, 0, 0, 0));
-            sonEle.setkStartColor(Color.WHITE);
-            sonEle.setkEndColor(Color.PINK);
-            sonEle.setkFillBackground(false);
-            sonEle.setkBorderRadius(50);
-            sonEle.setMinimumSize(new Dimension(169, 50));
-            sonEle.setMaximumSize(new Dimension(169, 50));
-            sonEle.setPreferredSize(new Dimension(169, 50));
-            sonEle.setOpaque(false);
-            grandChildEle = new KButton();
-            grandChildEle.setkBorderRadius(50);
-            grandChildEle.setkFillButton(true);
-            grandChildEle.setkEndColor(grandChildEndColor);
-            grandChildEle.setkForeGround(grandChildForeground);
-            grandChildEle.setkHoverColor(grandChildHoverColor);
-            grandChildEle.setkHoverEndColor(grandChildHoverEndColor);
-            grandChildEle.setkHoverStartColor(grandChildHoverStartColor);
-            grandChildEle.setkHoverForeGround(grandChildHoverForeground);
-            grandChildEle.setkStartColor(grandChildStartColor);
-            grandChildEle.setkPressedColor(grandChildPressedColor);
-            
-            grandChildEle.setBorder(null);
-            grandChildEle.setOpaque(true);
-            grandChildEle.setkAllowTab(isAllowTab);
-            
-            if (isAppendGrandChild) {
-                
-             motherEle.add(sonEle);
-             //friendListScrollPane.add(sonEle);
-             sonEle.add(grandChildEle);
-             grandChildEle.setText(appendString);
+        motherEle.setLayout(new BoxLayout(motherEle, BoxLayout.Y_AXIS));
+        motherEle.setOpaque(false);
+        motherEle.setkFillBackground(false);
+        motherEle.setBackground(new Color(0, 0, 0, 0));
+        motherEle.setBorder(null);
+        //motherEle.setMaximumSize(new Dimension(225, 380));
+        sonEle = new KGradientPanel();
+        sonEle.setBackground(new Color(0, 0, 0, 0));
+        sonEle.setkStartColor(Color.WHITE);
+        sonEle.setkEndColor(Color.PINK);
+        sonEle.setkFillBackground(false);
+        sonEle.setkBorderRadius(50);
+        sonEle.setMinimumSize(new Dimension(169, 50));
+        sonEle.setMaximumSize(new Dimension(169, 50));
+        sonEle.setPreferredSize(new Dimension(169, 50));
+        sonEle.setOpaque(false);
+        grandChildEle = new KButton();
+        grandChildEle.setkBorderRadius(50);
+        grandChildEle.setkFillButton(true);
+        grandChildEle.setkEndColor(grandChildEndColor);
+        grandChildEle.setkForeGround(grandChildForeground);
+        grandChildEle.setkHoverColor(grandChildHoverColor);
+        grandChildEle.setkHoverEndColor(grandChildHoverEndColor);
+        grandChildEle.setkHoverStartColor(grandChildHoverStartColor);
+        grandChildEle.setkHoverForeGround(grandChildHoverForeground);
+        grandChildEle.setkStartColor(grandChildStartColor);
+        grandChildEle.setkPressedColor(grandChildPressedColor);
 
-             motherEle.revalidate();
-             motherEle.repaint();
-            }
-             
-              
+        grandChildEle.setBorder(null);
+        grandChildEle.setOpaque(true);
+        grandChildEle.setkAllowTab(isAllowTab);
+
+        if (isAppendGrandChild) {
+
+            motherEle.add(sonEle);
+            //friendListScrollPane.add(sonEle);
+            sonEle.add(grandChildEle);
+            grandChildEle.setText(appendString);
+
+            motherEle.revalidate();
+            motherEle.repaint();
+        }
+
     }
-    
+
     public static void initSetting() {
         try {
             Dashboard dashBoard = new Dashboard();
@@ -161,18 +161,18 @@ public class Dashboard extends javax.swing.JFrame {
             kComponent.add(dashBoard.btnSend);
             kComponent.add(dashBoard.btnShowIntell);
             //---------------------------------------------------------
-            
+
             //set background
             dashBoard.setBackground(new Color(0, 0, 0, 0));
             dashBoard.backGround.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.conversation.setBackground(new Color(0,0,0,0));
+            dashBoard.conversation.setBackground(new Color(0, 0, 0, 0));
             dashBoard.messageScrollPane.getViewport().setOpaque(false);
             dashBoard.friendList.setBackground(new Color(0, 0, 0, 0));
             dashBoard.messageTextArea.setBackground(new Color(0, 0, 0, 0));
             dashBoard.txtReply.setBackground(new Color(0, 0, 0, 0));
             dashBoard.replyPane.setBackground(new Color(0, 0, 0, 0));
             dashBoard.userPane.setBackground(new Color(0, 0, 0, 0));
-            
+
             //apply font
             dashBoard.applyFont(dashBoard.btnSend, "SVN-Hole Hearted.ttf", 14f);
             dashBoard.applyFont(dashBoard.btnLogout, "SVN-Hole Hearted.ttf", 14f);
@@ -191,12 +191,12 @@ public class Dashboard extends javax.swing.JFrame {
             dashBoard.applyFont(dashBoard.lblIsTyping, "SVN-Hole Hearted.ttf", 15f);
             //set key binding for send button
             dashBoard.keyBinding();
-            
+
             //show the whole frame
             dashBoard.setVisible(true);
 
         } catch (Exception ex) {
-            
+
         }
 
     }
@@ -894,7 +894,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseDragged
 
 //------------------------------BUTTON CLICK EVENTS------------------------------------------------//
-    
+
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -908,8 +908,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         String replyMsg = this.txtReply.getText();
         if (!"".equals(replyMsg) && !"Please type in here....".equals(replyMsg)) {
-            
-            
+
             this.messageTextArea.append("User DIO1: " + replyMsg + "\n");
             this.txtReply.setText("");
             this.txtReply.requestFocus();
@@ -932,7 +931,7 @@ public class Dashboard extends javax.swing.JFrame {
         // replace userDIO with username from SOCKET       
         this.applyModernView(this.friendList, userPane, btnAddFriend, Color.red, Color.pink, Color.black, Color.green, Color.white, Color.pink, Color.black, Color.pink, true, false, "userDIo " + this.testUserID);
         this.testUserID++;
-       // this.friendListScrollPane.revalidate();
+        // this.friendListScrollPane.revalidate();
         //this.friendListScrollPane.repaint();
 
     }//GEN-LAST:event_btnAddFriendActionPerformed
@@ -974,7 +973,6 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSetWhiteBackgroundActionPerformed
 
 //-----------------------------------END OF CHANGE THEME METHODS-------------------//
-    
 //-----------------------------------KEY LISTENER EVENT----------------------------//
     private void txtReplyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReplyKeyPressed
         // TODO add your handling code here:
@@ -984,7 +982,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void txtReplyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReplyKeyReleased
         // TODO add your handling code here:
         this.lblIsTyping.setText("");
-        
+
     }//GEN-LAST:event_txtReplyKeyReleased
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
@@ -1044,15 +1042,15 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnBrowseFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseFontActionPerformed
         // TODO add your handling code here:
-        
-        
+
+
     }//GEN-LAST:event_btnBrowseFontActionPerformed
 
     private void btnShowIntellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowIntellActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnShowIntellActionPerformed
     private void btnAddFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFileActionPerformed
-    
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAddFileActionPerformed
 
@@ -1060,7 +1058,6 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnActiveIntellActionPerformed
 
-    
     /**
      * @param args the command line arguments
      */
