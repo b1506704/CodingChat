@@ -13,6 +13,7 @@ import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -37,7 +38,8 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
     }
-
+    public static ArrayList<JComponent> jComponent = new ArrayList<>();
+    public static ArrayList<KButton> kComponent = new ArrayList<>();
     public void keyBinding() {
         //must include this
         this.getRootPane().setDefaultButton(this.btnSend);
@@ -52,7 +54,6 @@ public class Dashboard extends javax.swing.JFrame {
                     messageTextArea.append(txtReply.getText() + "\n");
                     txtReply.setText("");
                     txtReply.requestFocus();
-                    //messagePane.revalidate();
                 }
 
             }
@@ -106,9 +107,9 @@ public class Dashboard extends javax.swing.JFrame {
             sonEle.setkEndColor(Color.PINK);
             sonEle.setkFillBackground(false);
             sonEle.setkBorderRadius(50);
-            sonEle.setMinimumSize(new Dimension(200, 50));
-            sonEle.setMaximumSize(new Dimension(200, 50));
-            sonEle.setPreferredSize(new Dimension(200, 50));
+            sonEle.setMinimumSize(new Dimension(169, 50));
+            sonEle.setMaximumSize(new Dimension(169, 50));
+            sonEle.setPreferredSize(new Dimension(169, 50));
             sonEle.setOpaque(false);
             grandChildEle = new KButton();
             grandChildEle.setkBorderRadius(50);
@@ -143,7 +144,25 @@ public class Dashboard extends javax.swing.JFrame {
     public static void initSetting() {
         try {
             Dashboard dashBoard = new Dashboard();
-
+            //add JComponent and KComponent to a list for handle later
+            jComponent.add(dashBoard.lblChangeFont);
+            jComponent.add(dashBoard.lblChangeTheme);
+            jComponent.add(dashBoard.lblCodeSnippet);
+            jComponent.add(dashBoard.lblIsTyping);
+            jComponent.add(dashBoard.lblUserName);
+            jComponent.add(dashBoard.messageTextArea);
+            kComponent.add(dashBoard.btnActiveIntell);
+            kComponent.add(dashBoard.btnAddFile);
+            kComponent.add(dashBoard.btnAddFriend);
+            kComponent.add(dashBoard.btnBrowseFont);
+            kComponent.add(dashBoard.btnConversation);
+            kComponent.add(dashBoard.btnLogout);
+            kComponent.add(dashBoard.btnReset);
+            kComponent.add(dashBoard.btnSend);
+            kComponent.add(dashBoard.btnShowIntell);
+            //---------------------------------------------------------
+            
+            //set background
             dashBoard.setBackground(new Color(0, 0, 0, 0));
             dashBoard.backGround.setBackground(new Color(0, 0, 0, 0));
             dashBoard.conversation.setBackground(new Color(0,0,0,0));
@@ -153,16 +172,21 @@ public class Dashboard extends javax.swing.JFrame {
             dashBoard.txtReply.setBackground(new Color(0, 0, 0, 0));
             dashBoard.replyPane.setBackground(new Color(0, 0, 0, 0));
             dashBoard.userPane.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.messageScrollPane.setPreferredSize(new Dimension(200, 300));
             
             //apply font
-            dashBoard.applyFont(dashBoard.btnSend, "VL COCO.OTF", 16f);
-            dashBoard.applyFont(dashBoard.btnLogout, "VL COCO.OTF", 16f);
-            dashBoard.applyFont(dashBoard.txtReply, "FVF Fernando 08.ttf", 20f);
+            dashBoard.applyFont(dashBoard.btnSend, "SVN-Hole Hearted.ttf", 14f);
+            dashBoard.applyFont(dashBoard.btnLogout, "SVN-Hole Hearted.ttf", 14f);
+            dashBoard.applyFont(dashBoard.txtReply, "SVN-Hole Hearted.ttf", 14f);
             dashBoard.applyFont(dashBoard.btnConversation, "FVF Fernando 08.ttf", 9f);
-            dashBoard.applyFont(dashBoard.btnReset, "VL COCO.OTF", 16f);
-            dashBoard.applyFont(dashBoard.messageTextArea, "SVN-Hole Hearted.ttf", 15f);
+            dashBoard.applyFont(dashBoard.btnReset, "SVN-Hole Hearted.ttf", 14f);
+            dashBoard.applyFont(dashBoard.btnBrowseFont, "SVN-Hole Hearted.ttf", 14f);
+            dashBoard.applyFont(dashBoard.btnActiveIntell, "SVN-Hole Hearted.ttf", 14f);
+            dashBoard.applyFont(dashBoard.btnAddFile, "SVN-Hole Hearted.ttf", 14f);
+            dashBoard.applyFont(dashBoard.btnShowIntell, "SVN-Hole Hearted.ttf", 14f);
+            dashBoard.applyFont(dashBoard.messageTextArea, "SVN-Hole Hearted.ttf", 25f);
             dashBoard.applyFont(dashBoard.lblChangeTheme, "FVF Fernando 08.ttf", 9f);
+            dashBoard.applyFont(dashBoard.lblChangeFont, "FVF Fernando 08.ttf", 9f);
+            dashBoard.applyFont(dashBoard.lblCodeSnippet, "FVF Fernando 08.ttf", 9f);
             dashBoard.applyFont(dashBoard.lblUserName, "SVN-Hole Hearted.ttf", 15f);
             dashBoard.applyFont(dashBoard.lblIsTyping, "SVN-Hole Hearted.ttf", 15f);
             //set key binding for send button
@@ -172,7 +196,7 @@ public class Dashboard extends javax.swing.JFrame {
             dashBoard.setVisible(true);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            
         }
 
     }
@@ -201,15 +225,26 @@ public class Dashboard extends javax.swing.JFrame {
         btnLogout = new keeptoo.KButton();
         changeThemePanel = new keeptoo.KGradientPanel();
         lblChangeTheme = new javax.swing.JLabel();
-        btnSetMagentaBackground = new keeptoo.KButton();
         btnSetRedBackground = new keeptoo.KButton();
         btnSetGreenBackground = new keeptoo.KButton();
         btnSetPinkBackground = new keeptoo.KButton();
         btnSetWhiteBackground = new keeptoo.KButton();
         btnSetTansparentBackground = new keeptoo.KButton();
-        btnGradient = new keeptoo.KButton();
         friendList = new keeptoo.KGradientPanel();
         lblIsTyping = new javax.swing.JLabel();
+        changeFontPanel = new keeptoo.KGradientPanel();
+        lblChangeFont = new javax.swing.JLabel();
+        btnSetRedFont = new keeptoo.KButton();
+        btnSetGreenFont = new keeptoo.KButton();
+        btnSetPinkFont = new keeptoo.KButton();
+        btnSetWhiteFont = new keeptoo.KButton();
+        btnSetTansparentFont = new keeptoo.KButton();
+        btnBrowseFont = new keeptoo.KButton();
+        codeSnippetPanel = new keeptoo.KGradientPanel();
+        lblCodeSnippet = new javax.swing.JLabel();
+        btnShowIntell = new keeptoo.KButton();
+        btnActiveIntell = new keeptoo.KButton();
+        btnAddFile = new keeptoo.KButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("dashBoard"); // NOI18N
@@ -232,9 +267,9 @@ public class Dashboard extends javax.swing.JFrame {
 
         conversation.setBackground(new java.awt.Color(255, 0, 255));
         conversation.setkBorderRadius(30);
-        conversation.setkEndColor(new java.awt.Color(0, 204, 204));
+        conversation.setkEndColor(new java.awt.Color(153, 0, 153));
         conversation.setkFillBackground(false);
-        conversation.setkStartColor(new java.awt.Color(153, 255, 255));
+        conversation.setkStartColor(new java.awt.Color(0, 0, 0));
         conversation.setkTransparentControls(false);
         conversation.setOpaque(false);
 
@@ -246,14 +281,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         messageTextArea.setEditable(false);
         messageTextArea.setColumns(20);
-        messageTextArea.setForeground(new java.awt.Color(51, 153, 0));
         messageTextArea.setRows(5);
-        messageTextArea.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        messageTextArea.setCaretColor(new java.awt.Color(51, 51, 51));
+        messageTextArea.setCaretColor(new java.awt.Color(204, 255, 204));
         messageTextArea.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        messageTextArea.setFocusable(false);
-        messageTextArea.setHighlighter(null);
-        messageTextArea.setSelectionColor(new java.awt.Color(0, 0, 0));
+        messageTextArea.setSelectionColor(new java.awt.Color(255, 255, 255));
         messageScrollPane.setViewportView(messageTextArea);
 
         javax.swing.GroupLayout conversationLayout = new javax.swing.GroupLayout(conversation);
@@ -262,7 +293,7 @@ public class Dashboard extends javax.swing.JFrame {
             conversationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, conversationLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(messageScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
+                .addComponent(messageScrollPane)
                 .addContainerGap())
         );
         conversationLayout.setVerticalGroup(
@@ -303,9 +334,9 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         replyPane.setkBorderRadius(100);
-        replyPane.setkEndColor(new java.awt.Color(102, 255, 51));
+        replyPane.setkEndColor(new java.awt.Color(153, 0, 153));
         replyPane.setkFillBackground(false);
-        replyPane.setkStartColor(new java.awt.Color(51, 255, 255));
+        replyPane.setkStartColor(new java.awt.Color(0, 0, 0));
         replyPane.setOpaque(false);
 
         txtReply.setText("Please type in here....");
@@ -331,8 +362,8 @@ public class Dashboard extends javax.swing.JFrame {
             replyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(replyPaneLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addComponent(txtReply, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         replyPaneLayout.setVerticalGroup(
             replyPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,10 +435,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(userPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userPaneLayout.createSequentialGroup()
-                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13))
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userPaneLayout.createSequentialGroup()
                         .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49))))
@@ -431,19 +462,6 @@ public class Dashboard extends javax.swing.JFrame {
         changeThemePanel.setOpaque(false);
 
         lblChangeTheme.setText("Set your theme here");
-
-        btnSetMagentaBackground.setkBackGroundColor(new java.awt.Color(51, 51, 51));
-        btnSetMagentaBackground.setkBorderRadius(100);
-        btnSetMagentaBackground.setkForeGround(new java.awt.Color(102, 255, 0));
-        btnSetMagentaBackground.setkHoverForeGround(new java.awt.Color(51, 0, 51));
-        btnSetMagentaBackground.setkPressedColor(new java.awt.Color(0, 51, 51));
-        btnSetMagentaBackground.setkSelectedColor(new java.awt.Color(51, 255, 204));
-        btnSetMagentaBackground.setkStartColor(new java.awt.Color(0, 0, 0));
-        btnSetMagentaBackground.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSetMagentaBackgroundActionPerformed(evt);
-            }
-        });
 
         btnSetRedBackground.setkBackGroundColor(java.awt.Color.red);
         btnSetRedBackground.setkBorderRadius(100);
@@ -515,20 +533,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btnGradient.setkBackGroundColor(new java.awt.Color(51, 51, 51));
-        btnGradient.setkBorderRadius(100);
-        btnGradient.setkForeGround(new java.awt.Color(102, 255, 0));
-        btnGradient.setkHoverForeGround(new java.awt.Color(51, 0, 51));
-        btnGradient.setkHoverStartColor(new java.awt.Color(206, 58, 102));
-        btnGradient.setkPressedColor(new java.awt.Color(0, 51, 51));
-        btnGradient.setkSelectedColor(new java.awt.Color(51, 255, 204));
-        btnGradient.setkStartColor(new java.awt.Color(0, 0, 0));
-        btnGradient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGradientActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout changeThemePanelLayout = new javax.swing.GroupLayout(changeThemePanel);
         changeThemePanel.setLayout(changeThemePanelLayout);
         changeThemePanelLayout.setHorizontalGroup(
@@ -538,9 +542,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(lblChangeTheme)
                 .addGap(102, 102, 102))
             .addGroup(changeThemePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnSetMagentaBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(56, 56, 56)
                 .addComponent(btnSetRedBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSetGreenBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -550,9 +552,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(btnSetWhiteBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSetTansparentBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGradient, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         changeThemePanelLayout.setVerticalGroup(
             changeThemePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -564,11 +564,9 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(btnSetGreenBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnSetPinkBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnSetWhiteBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSetTansparentBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnGradient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnSetRedBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSetMagentaBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(btnSetTansparentBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSetRedBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         friendList.setBackground(new java.awt.Color(255, 0, 255));
@@ -584,14 +582,231 @@ public class Dashboard extends javax.swing.JFrame {
         friendList.setLayout(friendListLayout);
         friendListLayout.setHorizontalGroup(
             friendListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 216, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         friendListLayout.setVerticalGroup(
             friendListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 348, Short.MAX_VALUE)
+            .addGap(0, 385, Short.MAX_VALUE)
         );
 
         lblIsTyping.setText("  ");
+
+        changeFontPanel.setkBorderRadius(100);
+        changeFontPanel.setkEndColor(new java.awt.Color(255, 255, 255));
+        changeFontPanel.setkFillBackground(false);
+        changeFontPanel.setkStartColor(new java.awt.Color(255, 255, 255));
+        changeFontPanel.setOpaque(false);
+
+        lblChangeFont.setText("Set your font style here");
+        lblChangeFont.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        btnSetRedFont.setkBackGroundColor(java.awt.Color.red);
+        btnSetRedFont.setkBorderRadius(100);
+        btnSetRedFont.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetRedFont.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetRedFont.setkHoverStartColor(java.awt.Color.red);
+        btnSetRedFont.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetRedFont.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetRedFont.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetRedFont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetRedFontActionPerformed(evt);
+            }
+        });
+
+        btnSetGreenFont.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetGreenFont.setkBorderRadius(100);
+        btnSetGreenFont.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetGreenFont.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetGreenFont.setkHoverStartColor(java.awt.Color.green);
+        btnSetGreenFont.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetGreenFont.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetGreenFont.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetGreenFont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetGreenFontActionPerformed(evt);
+            }
+        });
+
+        btnSetPinkFont.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetPinkFont.setkBorderRadius(100);
+        btnSetPinkFont.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetPinkFont.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetPinkFont.setkHoverStartColor(java.awt.Color.pink);
+        btnSetPinkFont.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetPinkFont.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetPinkFont.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetPinkFont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetPinkFontActionPerformed(evt);
+            }
+        });
+
+        btnSetWhiteFont.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetWhiteFont.setkBorderRadius(100);
+        btnSetWhiteFont.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetWhiteFont.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetWhiteFont.setkHoverStartColor(java.awt.Color.white);
+        btnSetWhiteFont.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetWhiteFont.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetWhiteFont.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetWhiteFont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetWhiteFontActionPerformed(evt);
+            }
+        });
+
+        btnSetTansparentFont.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnSetTansparentFont.setkBorderRadius(100);
+        btnSetTansparentFont.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnSetTansparentFont.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnSetTansparentFont.setkHoverStartColor(new java.awt.Color(236, 255, 254));
+        btnSetTansparentFont.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnSetTansparentFont.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnSetTansparentFont.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnSetTansparentFont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetTansparentFontActionPerformed(evt);
+            }
+        });
+
+        btnBrowseFont.setText("Browse");
+        btnBrowseFont.setkBorderRadius(100);
+        btnBrowseFont.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnBrowseFont.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnBrowseFont.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnBrowseFont.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnBrowseFont.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnBrowseFont.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnBrowseFont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBrowseFontActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout changeFontPanelLayout = new javax.swing.GroupLayout(changeFontPanel);
+        changeFontPanel.setLayout(changeFontPanelLayout);
+        changeFontPanelLayout.setHorizontalGroup(
+            changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(changeFontPanelLayout.createSequentialGroup()
+                .addGroup(changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(changeFontPanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblChangeFont)
+                        .addGap(38, 38, 38))
+                    .addGroup(changeFontPanelLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(btnSetRedFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSetGreenFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSetPinkFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSetWhiteFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSetTansparentFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)))
+                .addComponent(btnBrowseFont, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+        changeFontPanelLayout.setVerticalGroup(
+            changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(changeFontPanelLayout.createSequentialGroup()
+                .addGroup(changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(changeFontPanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btnBrowseFont, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, changeFontPanelLayout.createSequentialGroup()
+                        .addComponent(lblChangeFont, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSetGreenFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSetPinkFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSetWhiteFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSetTansparentFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSetRedFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        codeSnippetPanel.setkBorderRadius(100);
+        codeSnippetPanel.setkEndColor(new java.awt.Color(255, 255, 255));
+        codeSnippetPanel.setkFillBackground(false);
+        codeSnippetPanel.setkStartColor(new java.awt.Color(255, 255, 255));
+        codeSnippetPanel.setOpaque(false);
+
+        lblCodeSnippet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCodeSnippet.setText("Java Intellisense");
+
+        btnShowIntell.setText("Show");
+        btnShowIntell.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnShowIntell.setkBorderRadius(100);
+        btnShowIntell.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnShowIntell.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnShowIntell.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnShowIntell.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnShowIntell.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnShowIntell.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnShowIntell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnShowIntellActionPerformed(evt);
+            }
+        });
+
+        btnActiveIntell.setText("Active");
+        btnActiveIntell.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnActiveIntell.setkBorderRadius(100);
+        btnActiveIntell.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnActiveIntell.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnActiveIntell.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnActiveIntell.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnActiveIntell.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnActiveIntell.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnActiveIntell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActiveIntellActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout codeSnippetPanelLayout = new javax.swing.GroupLayout(codeSnippetPanel);
+        codeSnippetPanel.setLayout(codeSnippetPanelLayout);
+        codeSnippetPanelLayout.setHorizontalGroup(
+            codeSnippetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, codeSnippetPanelLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(btnActiveIntell, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnShowIntell, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, codeSnippetPanelLayout.createSequentialGroup()
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addComponent(lblCodeSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49))
+        );
+        codeSnippetPanelLayout.setVerticalGroup(
+            codeSnippetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(codeSnippetPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblCodeSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(codeSnippetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnShowIntell, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActiveIntell, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        btnAddFile.setText("+");
+        btnAddFile.setkBorderRadius(100);
+        btnAddFile.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnAddFile.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnAddFile.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnAddFile.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnAddFile.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnAddFile.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnAddFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddFileActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout backGroundLayout = new javax.swing.GroupLayout(backGround);
         backGround.setLayout(backGroundLayout);
@@ -599,27 +814,27 @@ public class Dashboard extends javax.swing.JFrame {
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backGroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(backGroundLayout.createSequentialGroup()
-                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(backGroundLayout.createSequentialGroup()
-                                .addComponent(replyPane, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(conversation, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, backGroundLayout.createSequentialGroup()
-                        .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(182, 182, 182))
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
+                        .addComponent(replyPane, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(conversation, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
                     .addGroup(backGroundLayout.createSequentialGroup()
                         .addComponent(changeThemePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(userPane, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(10, 10, 10)
+                        .addComponent(changeFontPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(codeSnippetPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(userPane, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                    .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(friendList, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(backGroundLayout.createSequentialGroup()
                 .addGap(94, 94, 94)
                 .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -629,22 +844,26 @@ public class Dashboard extends javax.swing.JFrame {
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(userPane, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeThemePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnConversation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddFriend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(changeThemePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                    .addComponent(changeFontPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                    .addComponent(codeSnippetPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                    .addComponent(userPane, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConversation, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(backGroundLayout.createSequentialGroup()
                         .addComponent(conversation, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(replyPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -694,7 +913,6 @@ public class Dashboard extends javax.swing.JFrame {
             this.messageTextArea.append("User DIO1: " + replyMsg + "\n");
             this.txtReply.setText("");
             this.txtReply.requestFocus();
-            //this.conversation.revalidate();
         }
 
 
@@ -719,17 +937,6 @@ public class Dashboard extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAddFriendActionPerformed
 
-//------------------------------END OF BUTTON CLICK EVENTS------------------------------------------------//
-
-//------------------------------CHANGE THEME METHODS------------------------------------------------------//
-
-    private void btnSetMagentaBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetMagentaBackgroundActionPerformed
-        // TODO add your handling code here:
-        this.backGround.setkStartColor(Color.MAGENTA);
-        this.backGround.setkEndColor(Color.MAGENTA);
-        this.backGround.repaint();
-    }//GEN-LAST:event_btnSetMagentaBackgroundActionPerformed
-
     private void btnSetGreenBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetGreenBackgroundActionPerformed
         // TODO add your handling code here:
         this.backGround.setkStartColor(Color.GREEN);
@@ -743,13 +950,6 @@ public class Dashboard extends javax.swing.JFrame {
         this.backGround.setkEndColor(Color.RED);
         this.backGround.repaint();
     }//GEN-LAST:event_btnSetRedBackgroundActionPerformed
-
-    private void btnGradientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGradientActionPerformed
-        // TODO add your handling code here:
-        this.backGround.setkStartColor(Color.WHITE);
-        this.backGround.setkEndColor(Color.PINK);
-        this.backGround.repaint();
-    }//GEN-LAST:event_btnGradientActionPerformed
 
     private void btnSetPinkBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetPinkBackgroundActionPerformed
         // TODO add your handling code here:
@@ -792,6 +992,75 @@ public class Dashboard extends javax.swing.JFrame {
         initSetting();
     }//GEN-LAST:event_btnResetActionPerformed
 
+    private void btnSetRedFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetRedFontActionPerformed
+        // TODO add your handling code here:
+        jComponent.forEach((jComponentI) -> {
+            jComponentI.setForeground(Color.RED);
+        });
+        kComponent.forEach((kButtonI) -> {
+            kButtonI.setkForeGround(Color.RED);
+        });
+    }//GEN-LAST:event_btnSetRedFontActionPerformed
+
+    private void btnSetGreenFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetGreenFontActionPerformed
+        // TODO add your handling code here:
+        jComponent.forEach((jComponentI) -> {
+            jComponentI.setForeground(Color.GREEN);
+        });
+        kComponent.forEach((kButtonI) -> {
+            kButtonI.setkForeGround(Color.GREEN);
+        });
+    }//GEN-LAST:event_btnSetGreenFontActionPerformed
+
+    private void btnSetPinkFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetPinkFontActionPerformed
+        // TODO add your handling code here:
+        jComponent.forEach((jComponentI) -> {
+            jComponentI.setForeground(Color.PINK);
+        });
+        kComponent.forEach((kButtonI) -> {
+            kButtonI.setkForeGround(Color.PINK);
+        });
+    }//GEN-LAST:event_btnSetPinkFontActionPerformed
+
+    private void btnSetWhiteFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetWhiteFontActionPerformed
+        // TODO add your handling code here:
+        jComponent.forEach((jComponentI) -> {
+            jComponentI.setForeground(Color.WHITE);
+        });
+        kComponent.forEach((kButtonI) -> {
+            kButtonI.setkForeGround(Color.WHITE);
+        });
+    }//GEN-LAST:event_btnSetWhiteFontActionPerformed
+
+    private void btnSetTansparentFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetTansparentFontActionPerformed
+        // TODO add your handling code here:
+        jComponent.forEach((jComponentI) -> {
+            jComponentI.setForeground(new Color(15, 15, 15, 40));
+        });
+        kComponent.forEach((kButtonI) -> {
+            kButtonI.setkForeGround(new Color(15, 15, 15, 40));
+        });
+    }//GEN-LAST:event_btnSetTansparentFontActionPerformed
+
+    private void btnBrowseFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseFontActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_btnBrowseFontActionPerformed
+
+    private void btnShowIntellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowIntellActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnShowIntellActionPerformed
+    private void btnAddFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFileActionPerformed
+    
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddFileActionPerformed
+
+    private void btnActiveIntellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveIntellActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnActiveIntellActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -832,22 +1101,33 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private keeptoo.KGradientPanel backGround;
+    private keeptoo.KButton btnActiveIntell;
+    private keeptoo.KButton btnAddFile;
     private keeptoo.KButton btnAddFriend;
+    private keeptoo.KButton btnBrowseFont;
     private keeptoo.KButton btnConversation;
-    private keeptoo.KButton btnGradient;
     private keeptoo.KButton btnLogout;
     private keeptoo.KButton btnReset;
     private keeptoo.KButton btnSend;
     private keeptoo.KButton btnSetGreenBackground;
-    private keeptoo.KButton btnSetMagentaBackground;
+    private keeptoo.KButton btnSetGreenFont;
     private keeptoo.KButton btnSetPinkBackground;
+    private keeptoo.KButton btnSetPinkFont;
     private keeptoo.KButton btnSetRedBackground;
+    private keeptoo.KButton btnSetRedFont;
     private keeptoo.KButton btnSetTansparentBackground;
+    private keeptoo.KButton btnSetTansparentFont;
     private keeptoo.KButton btnSetWhiteBackground;
+    private keeptoo.KButton btnSetWhiteFont;
+    private keeptoo.KButton btnShowIntell;
+    private keeptoo.KGradientPanel changeFontPanel;
     private keeptoo.KGradientPanel changeThemePanel;
+    private keeptoo.KGradientPanel codeSnippetPanel;
     private keeptoo.KGradientPanel conversation;
     private keeptoo.KGradientPanel friendList;
+    private javax.swing.JLabel lblChangeFont;
     private javax.swing.JLabel lblChangeTheme;
+    private javax.swing.JLabel lblCodeSnippet;
     private javax.swing.JLabel lblIsTyping;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JScrollPane messageScrollPane;

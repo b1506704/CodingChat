@@ -142,8 +142,6 @@ public class LoginRegister extends javax.swing.JFrame {
             //set background
             LoginRegister loginForm = new LoginRegister();
             loginForm.setBackground(new Color(0,0,0,0));
-           // loginForm.backGround.setkStartColor(new Color(51, 255, 255));
-            //loginForm.backGround.setkEndColor(new Color(51, 153, 153));
             loginForm.loginRegisterPanel.setBorder(null);
             loginForm.loginRegisterPanel.setkStartColor(new Color(51, 100, 51, 40));
             loginForm.loginRegisterPanel.setkEndColor(new Color(51, 100, 51, 40));
@@ -163,16 +161,17 @@ public class LoginRegister extends javax.swing.JFrame {
             loginForm.applyFont(loginForm.lblTitle2,"Vanessas Valentine.otf",70f);
             loginForm.applyFont(loginForm.lblID,"FVF Fernando 08.ttf",14f);
             loginForm.applyFont(loginForm.lblPassword,"FVF Fernando 08.ttf",14f);
-            loginForm.applyFont(loginForm.txtID,"Lavina 4F.otf",13f);
-            loginForm.applyFont(loginForm.txtPassword,"Lavina 4F.otf",13f);
+            loginForm.applyFont(loginForm.txtID,"FVF Fernando 08.ttf",17f);
+            loginForm.applyFont(loginForm.txtPassword,"FVF Fernando 08.ttf",17f);
             loginForm.applyFont(loginForm.btnLogin,"VL COCO.OTF",25f);
             loginForm.applyFont(loginForm.btnRegister,"VL COCO.OTF",25f);
-            loginForm.applyFont(loginForm.btnHidePass,"VL COCO.OTF",20f);
+            loginForm.applyFont(loginForm.btnHidePass,"FVF Fernando 08.ttfF",15f);
             loginForm.applyFont(loginForm.btnLogout, "Vanessas Valentine.otf",40F);
             
             //show frame
-            loginForm.setVisible(true);
             
+            loginForm.setVisible(true);
+            loginForm.txtID.requestFocus();
         } catch (Exception ex) {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -321,7 +320,6 @@ public class LoginRegister extends javax.swing.JFrame {
 
         txtID.setBackground(new java.awt.Color(204, 204, 255));
         txtID.setFont(new java.awt.Font("Perpetua Titling MT", 0, 12)); // NOI18N
-        txtID.setForeground(new java.awt.Color(255, 255, 0));
 
         javax.swing.GroupLayout txtIDPanelLayout = new javax.swing.GroupLayout(txtIDPanel);
         txtIDPanel.setLayout(txtIDPanelLayout);
@@ -347,7 +345,6 @@ public class LoginRegister extends javax.swing.JFrame {
 
         txtPassword.setBackground(new java.awt.Color(204, 204, 255));
         txtPassword.setFont(new java.awt.Font("Perpetua Titling MT", 0, 12)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(255, 255, 0));
 
         javax.swing.GroupLayout txtPasswordPanelLayout = new javax.swing.GroupLayout(txtPasswordPanel);
         txtPasswordPanel.setLayout(txtPasswordPanelLayout);
@@ -387,11 +384,11 @@ public class LoginRegister extends javax.swing.JFrame {
                         .addComponent(btnHidePass, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21))
                     .addGroup(loginRegisterPanelLayout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addGap(75, 75, 75)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                         .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(123, 123, 123))))
+                        .addGap(136, 136, 136))))
         );
         loginRegisterPanelLayout.setVerticalGroup(
             loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,19 +397,20 @@ public class LoginRegister extends javax.swing.JFrame {
                 .addComponent(lblID)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtIDPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblPassword)
-                .addGap(18, 18, 18)
                 .addGroup(loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPasswordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginRegisterPanelLayout.createSequentialGroup()
-                        .addComponent(btnHidePass, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39))
+                    .addGroup(loginRegisterPanelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(btnHidePass, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginRegisterPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPasswordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21)
+                .addGroup(loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(98, 98, 98))
         );
 
         javax.swing.GroupLayout backGroundLayout = new javax.swing.GroupLayout(backGround);
