@@ -88,6 +88,11 @@ public class ChatFrame extends javax.swing.JFrame {
         jLabel1.setText("Host Address : ");
 
         jTextField1.setText("localhost");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Host Port : ");
 
@@ -295,7 +300,7 @@ public class ChatFrame extends javax.swing.JFrame {
         
         if(!serverAddr.isEmpty() && !jTextField2.getText().isEmpty()){
             try{
-                client = new SocketClient(this);
+               // client = new SocketClient(this);
                 clientThread = new Thread(client);
                 clientThread.start();
                 client.send(new Message("test", "testUser", "testContent", "SERVER"));
@@ -390,6 +395,10 @@ public class ChatFrame extends javax.swing.JFrame {
         historyFrame.setLocation(this.getLocation());
         historyFrame.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     public static void main(String args[]) {
         try {

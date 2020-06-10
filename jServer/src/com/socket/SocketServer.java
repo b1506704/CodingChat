@@ -12,13 +12,14 @@ class ServerThread extends Thread {
     public ObjectInputStream streamIn  =  null;
     public ObjectOutputStream streamOut = null;
     public ServerFrame ui;
-
+    
     public ServerThread(SocketServer _server, Socket _socket){  
     	super();
         server = _server;
         socket = _socket;
         ID     = socket.getPort();
         ui = _server.ui;
+        
     }
     
     public void send(Message msg){
@@ -76,13 +77,14 @@ public class SocketServer implements Runnable {
     public int clientCount = 0, port = 13000;
     public ServerFrame ui;
     public Database db;
+    public DatabaseSQL dbSQL = new DatabaseSQL();
 
     public SocketServer(ServerFrame frame){
        
         clients = new ServerThread[50];
         ui = frame;
         db = new Database(ui.filePath);
-        
+         
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
@@ -158,7 +160,13 @@ public class SocketServer implements Runnable {
 	else{
             if(msg.type.equals("login")){
                 if(findUserThread(msg.sender) == null){
-                    if(db.checkLogin(msg.sender, msg.content)){
+//                    if(db.checkLogin(msg.sender, msg.content)){
+//                        clients[findClient(ID)].username = msg.sender;
+//                        clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
+//                        Announce("newuser", "SERVER", msg.sender);
+//                        SendUserList(msg.sender);
+//                    }
+                    if (dbSQL.CheckLogin(msg.sender, msg.content)) {
                         clients[findClient(ID)].username = msg.sender;
                         clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
                         Announce("newuser", "SERVER", msg.sender);
@@ -186,8 +194,8 @@ public class SocketServer implements Runnable {
             }
             else if(msg.type.equals("signup")){
                 if(findUserThread(msg.sender) == null){
-                    if(!db.userExists(msg.sender)){
-                        db.addUser(msg.sender, msg.content);
+                    if(!dbSQL.CheckUser(msg.sender)){
+                        dbSQL.addUser(msg.sender, msg.content);
                         clients[findClient(ID)].username = msg.sender;
                         clients[findClient(ID)].send(new Message("signup", "SERVER", "TRUE", msg.sender));
                         clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
