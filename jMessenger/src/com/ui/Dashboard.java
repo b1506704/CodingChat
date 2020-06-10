@@ -5,6 +5,7 @@
  */
 package com.ui;
 
+import com.socket.SocketClient;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,7 +26,6 @@ import javax.swing.UIManager;
 import keeptoo.Drag;
 import keeptoo.KButton;
 import keeptoo.KGradientPanel;
-
 /**
  *
  * @author TsundereMoe
@@ -41,7 +41,10 @@ public class Dashboard extends javax.swing.JFrame {
     }
     public static ArrayList<JComponent> jComponent = new ArrayList<>();
     public static ArrayList<KButton> kComponent = new ArrayList<>();
-
+    public SocketClient client;
+    private int port;
+    private String serverAddr, username, password;
+    public Thread clientThread;
     public void keyBinding() {
         //must include this
         this.getRootPane().setDefaultButton(this.btnSend);
@@ -1128,7 +1131,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblIsTyping;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JScrollPane messageScrollPane;
-    private javax.swing.JTextArea messageTextArea;
+    public javax.swing.JTextArea messageTextArea;
     private keeptoo.KGradientPanel replyPane;
     private javax.swing.JTextField txtReply;
     private keeptoo.KGradientPanel userPane;

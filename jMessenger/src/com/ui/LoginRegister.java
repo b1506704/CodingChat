@@ -5,12 +5,12 @@
  */
 package com.ui;
 
+import com.socket.Message;
 import com.socket.SocketClient;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import keeptoo.Drag;
@@ -33,11 +32,14 @@ public class LoginRegister extends javax.swing.JFrame {
      * Creates new form LoginRegister
      */
     public SocketClient client;
-    private int port;
-    private String serverAddr, username, password;
+    private int port=13000;
+    private String serverAddr ="localhost";
+    private String username;
+    private String password;
     public Thread clientThread;
     public LoginRegister() {
         initComponents();
+        
     }
     
      /**
@@ -168,8 +170,10 @@ public class LoginRegister extends javax.swing.JFrame {
             loginForm.applyFont(loginForm.btnHidePass,"FVF Fernando 08.ttf",8f);
             loginForm.applyFont(loginForm.btnLogout, "Vanessas Valentine.otf",40F);
             
-            //show frame
             
+            //socket
+            loginForm.client= new SocketClient(loginForm);
+            //show frame
             loginForm.setVisible(true);
             loginForm.txtID.requestFocus();
         } catch (Exception ex) {
@@ -481,7 +485,34 @@ public class LoginRegister extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         //add ID and Password to Socket and database
-        
+        if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
+                    setUsername(txtID.getText().trim());
+                    setPassword(txtPassword.getText().trim());
+                   // Dashboard dashBoard = new Dashboard();
+            //don't setVisible()here ==> 2x setVisible() reset components.
+                    //Dashboard.initSetting();
+                    //dashBoard.toFront();
+                    //==> Socket code here
+                    username = getUsername();
+                    password = getPassword();
+                    if(!username.isEmpty() && !password.isEmpty()){
+                       try{
+               // client = new SocketClient(this);
+                             clientThread = new Thread(client);
+                             clientThread.start();
+                             client.send(new Message("test", "testUser", "testContent", "SERVER"));
+                        }
+                       catch(Exception ex){
+                //jTextArea1.append("[Application > Me] : Server not found\n");
+                        }
+                    if(!username.isEmpty() && !password.isEmpty()){
+                        client.send(new Message("signup", username, password, "SERVER"));
+                    }
+                } else {
+                    
+                    
+                }
+        }
         
     }//GEN-LAST:event_btnRegisterActionPerformed
 
@@ -490,12 +521,23 @@ public class LoginRegister extends javax.swing.JFrame {
         if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
                     setUsername(txtID.getText().trim());
                     setPassword(txtPassword.getText().trim());
-                    Dashboard dashBoard = new Dashboard();
-            //don't setVisible()here ==> 2x setVisible() reset components.
-                    Dashboard.initSetting();
-                    dashBoard.toFront();
                     //==> Socket code here
-                    
+                    username = getUsername();
+                    password = getPassword();
+        
+        if(!username.isEmpty() && !password.isEmpty()){
+            try{
+               // client = new SocketClient(this);
+                clientThread = new Thread(client);
+                clientThread.start();
+                client.send(new Message("test", "testUser", "testContent", "SERVER"));
+            }
+            catch(Exception ex){
+                //jTextArea1.append("[Application > Me] : Server not found\n");
+            }
+            
+            client.send(new Message("login", username, password, "SERVER"));
+        }
                 } else {
                     
                     
