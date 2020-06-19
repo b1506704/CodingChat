@@ -50,7 +50,6 @@ public class ServerFrame extends javax.swing.JFrame {
         jTextArea1.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
-ssdsdsd
         jLabel3.setText("Database File : ");
 
         jButton2.setText("Browse...");

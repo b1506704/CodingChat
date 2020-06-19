@@ -190,15 +190,15 @@ public class SocketClient implements Runnable{
             Out.flush();
             System.out.println("Outgoing : "+msg.toString());
             
-            if(msg.type.equals("message") && !msg.content.equals(".bye")){
-                String msgTime = (new Date()).toString();
-                try{
-                  //  hist.addMessage(msg, msgTime);               
-                   // DefaultTableModel table = (DefaultTableModel) ui.historyFrame.jTable1.getModel();
-                   // table.addRow(new Object[]{"Me", msg.content, msg.recipient, msgTime});
-                }
-                catch(Exception ex){}
-            }
+//            if(msg.type.equals("message") && !msg.content.equals(".bye")){
+//                String msgTime = (new Date()).toString();
+//                try{
+//                  //  hist.addMessage(msg, msgTime);               
+//                   // DefaultTableModel table = (DefaultTableModel) ui.historyFrame.jTable1.getModel();
+//                   // table.addRow(new Object[]{"Me", msg.content, msg.recipient, msgTime});
+//                }
+//                catch(Exception ex){}
+//            }
         } 
         catch (IOException ex) {
             System.out.println("Exception SocketClient send()");
