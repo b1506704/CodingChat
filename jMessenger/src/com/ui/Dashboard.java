@@ -5,10 +5,10 @@
  */
 package com.ui;
 
+import com.socket.Message;
 import com.socket.SocketClient;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
@@ -19,32 +19,182 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import keeptoo.Drag;
 import keeptoo.KButton;
-import keeptoo.KGradientPanel;
 /**
  *
  * @author TsundereMoe
  */
-public class Dashboard extends javax.swing.JFrame {
+public final class Dashboard extends javax.swing.JFrame {
 
     /**
-     * Creates new form Dashboard
-     *
+     * @return the port
      */
-    public Dashboard() {
-        initComponents();
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * @param port the port to set
+     */
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    /**
+     * @return the serverAddr
+     */
+    public String getServerAddr() {
+        return serverAddr;
+    }
+
+    /**
+     * @param serverAddr the serverAddr to set
+     */
+    public void setServerAddr(String serverAddr) {
+        this.serverAddr = serverAddr;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+        this.lblUserName.setText(username);
     }
     public static ArrayList<JComponent> jComponent = new ArrayList<>();
     public static ArrayList<KButton> kComponent = new ArrayList<>();
     public SocketClient client;
     private int port;
-    private String serverAddr, username, password;
+    private String serverAddr;
+    private String username;
     public Thread clientThread;
+     /**
+     * Creates new form Dashboard
+     *
+     * @param client
+     */
+    public Dashboard(SocketClient client) {
+        initComponents();
+            jComponent.add(this.lblChangeFont);
+            jComponent.add(this.lblChangeTheme);
+            jComponent.add(this.lblCodeSnippet);
+            jComponent.add(this.lblIsTyping);
+            jComponent.add(this.lblUserName);
+            jComponent.add(this.messageTextArea);
+            jComponent.add(this.friendList);
+            jComponent.add(this.friendListScrollPane.getViewport());
+            jComponent.add(this.txtReply);
+            kComponent.add(this.btnActiveIntell);
+            kComponent.add(this.btnAddFile);
+            kComponent.add(this.btnAddFriend);
+            kComponent.add(this.btnBrowseFont);
+            kComponent.add(this.btnConversation);
+            kComponent.add(this.btnLogout);
+            kComponent.add(this.btnShowConnection);
+            kComponent.add(this.btnSend);
+            kComponent.add(this.btnShowIntell);
+            this.setBackground(new Color(0, 0, 0, 0));
+            this.backGround.setBackground(new Color(0, 0, 0, 0));
+            this.conversation.setBackground(new Color(0, 0, 0, 0));
+            this.messageScrollPane.getViewport().setOpaque(false);
+            this.messageTextArea.setBackground(new Color(0, 0, 0, 0));
+            
+            this.txtReply.setBackground(new Color(0, 0, 0, 0));
+            this.replyPane.setBackground(new Color(0, 0, 0, 0));
+            this.userPane.setBackground(new Color(0, 0, 0, 0));
+            this.friendList.setBackground(new Color(0,0,0,0));
+            this.friendList.setOpaque(false);
+            this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
+            this.friendListScrollPane.getViewport().setOpaque(false);
+
+            //apply font
+            this.applyFont(this.btnSend, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnLogout, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.txtReply, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnConversation, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.btnShowConnection, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnBrowseFont, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnActiveIntell, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnAddFile, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnShowIntell, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.messageTextArea, "SVN-Hole Hearted.ttf", 25f);
+            this.applyFont(this.lblChangeTheme, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.lblChangeFont, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.lblCodeSnippet, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.lblUserName, "SVN-Hole Hearted.ttf", 15f);
+            this.applyFont(this.lblIsTyping, "SVN-Hole Hearted.ttf", 15f);
+            
+            //keybinding
+            this.keyBinding();
+            //socket
+            this.client=client;
+    }
+    public Dashboard() {
+        initComponents();
+            jComponent.add(this.lblChangeFont);
+            jComponent.add(this.lblChangeTheme);
+            jComponent.add(this.lblCodeSnippet);
+            jComponent.add(this.lblIsTyping);
+            jComponent.add(this.lblUserName);
+            jComponent.add(this.messageTextArea);
+            jComponent.add(this.friendList);
+            jComponent.add(this.friendListScrollPane.getViewport());
+            jComponent.add(this.txtReply);
+            kComponent.add(this.btnActiveIntell);
+            kComponent.add(this.btnAddFile);
+            kComponent.add(this.btnAddFriend);
+            kComponent.add(this.btnBrowseFont);
+            kComponent.add(this.btnConversation);
+            kComponent.add(this.btnLogout);
+            kComponent.add(this.btnShowConnection);
+            kComponent.add(this.btnSend);
+            kComponent.add(this.btnShowIntell);
+            this.setBackground(new Color(0, 0, 0, 0));
+            this.backGround.setBackground(new Color(0, 0, 0, 0));
+            this.conversation.setBackground(new Color(0, 0, 0, 0));
+            this.messageScrollPane.getViewport().setOpaque(false);
+            this.messageTextArea.setBackground(new Color(0, 0, 0, 0));
+            
+            this.txtReply.setBackground(new Color(0, 0, 0, 0));
+            this.replyPane.setBackground(new Color(0, 0, 0, 0));
+            this.userPane.setBackground(new Color(0, 0, 0, 0));
+            this.friendList.setBackground(new Color(0,0,0,0));
+            this.friendList.setOpaque(false);
+            this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
+            this.friendListScrollPane.getViewport().setOpaque(false);
+
+            //apply font
+            this.applyFont(this.btnSend, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnLogout, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.txtReply, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnConversation, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.btnShowConnection, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnBrowseFont, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnActiveIntell, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnAddFile, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnShowIntell, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.messageTextArea, "SVN-Hole Hearted.ttf", 25f);
+            this.applyFont(this.lblChangeTheme, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.lblChangeFont, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.lblCodeSnippet, "FVF Fernando 08.ttf", 9f);
+            this.applyFont(this.lblUserName, "SVN-Hole Hearted.ttf", 15f);
+            this.applyFont(this.lblIsTyping, "SVN-Hole Hearted.ttf", 15f);
+            this.applyFont(this.friendList,  "SVN-Hole Hearted.ttf", 15f);
+            this.keyBinding();
+    }
+    
     public void keyBinding() {
         //must include this
         this.getRootPane().setDefaultButton(this.btnSend);
@@ -55,11 +205,6 @@ public class Dashboard extends javax.swing.JFrame {
         Action sendMessage = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!"".equals(txtReply.getText()) && !"Please type in here....".equals(txtReply.getText())) {
-                    messageTextArea.append(txtReply.getText() + "\n");
-                    txtReply.setText("");
-                    txtReply.requestFocus();
-                }
 
             }
         };
@@ -77,133 +222,6 @@ public class Dashboard extends javax.swing.JFrame {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    //apply Layout, a rounded panel and button with text
-    /**
-     *
-     * @param motherEle đây là parentPanel để setLayout
-     * @param sonEle đây là panel nằm trong motherEle và chứa button
-     * grandChilEle
-     * @param grandChildEle đây là Kbutton đẻ set thuộc tính
-     * @param grandChildStartColor
-     * @param grandChildEndColor
-     * @param grandChildForeground
-     * @param grandChildHoverColor
-     * @param grandChildHoverEndColor
-     * @param grandChildHoverStartColor
-     * @param grandChildHoverForeground
-     * @param grandChildPressedColor
-     * @param isAppendGrandChild
-     * @param appendString
-     * @param isAllowTab
-     */
-    //chua xai duoc ScrollPanel
-    public void applyModernView(KGradientPanel motherEle, KGradientPanel sonEle, KButton grandChildEle, Color grandChildStartColor, Color grandChildEndColor, Color grandChildForeground, Color grandChildHoverColor, Color grandChildHoverEndColor, Color grandChildHoverStartColor, Color grandChildHoverForeground, Color grandChildPressedColor, boolean isAppendGrandChild, boolean isAllowTab, String appendString) {
-        motherEle.setLayout(new BoxLayout(motherEle, BoxLayout.Y_AXIS));
-        motherEle.setOpaque(false);
-        motherEle.setkFillBackground(false);
-        motherEle.setBackground(new Color(0, 0, 0, 0));
-        motherEle.setBorder(null);
-        //motherEle.setMaximumSize(new Dimension(225, 380));
-        sonEle = new KGradientPanel();
-        sonEle.setBackground(new Color(0, 0, 0, 0));
-        sonEle.setkStartColor(Color.WHITE);
-        sonEle.setkEndColor(Color.PINK);
-        sonEle.setkFillBackground(false);
-        sonEle.setkBorderRadius(50);
-        sonEle.setMinimumSize(new Dimension(169, 50));
-        sonEle.setMaximumSize(new Dimension(169, 50));
-        sonEle.setPreferredSize(new Dimension(169, 50));
-        sonEle.setOpaque(false);
-        grandChildEle = new KButton();
-        grandChildEle.setkBorderRadius(50);
-        grandChildEle.setkFillButton(true);
-        grandChildEle.setkEndColor(grandChildEndColor);
-        grandChildEle.setkForeGround(grandChildForeground);
-        grandChildEle.setkHoverColor(grandChildHoverColor);
-        grandChildEle.setkHoverEndColor(grandChildHoverEndColor);
-        grandChildEle.setkHoverStartColor(grandChildHoverStartColor);
-        grandChildEle.setkHoverForeGround(grandChildHoverForeground);
-        grandChildEle.setkStartColor(grandChildStartColor);
-        grandChildEle.setkPressedColor(grandChildPressedColor);
-
-        grandChildEle.setBorder(null);
-        grandChildEle.setOpaque(true);
-        grandChildEle.setkAllowTab(isAllowTab);
-
-        if (isAppendGrandChild) {
-
-            motherEle.add(sonEle);
-            //friendListScrollPane.add(sonEle);
-            sonEle.add(grandChildEle);
-            grandChildEle.setText(appendString);
-
-            motherEle.revalidate();
-            motherEle.repaint();
-        }
-
-    }
-
-    public static void initSetting() {
-        try {
-            Dashboard dashBoard = new Dashboard();
-            //add JComponent and KComponent to a list for handle later
-            jComponent.add(dashBoard.lblChangeFont);
-            jComponent.add(dashBoard.lblChangeTheme);
-            jComponent.add(dashBoard.lblCodeSnippet);
-            jComponent.add(dashBoard.lblIsTyping);
-            jComponent.add(dashBoard.lblUserName);
-            jComponent.add(dashBoard.messageTextArea);
-            kComponent.add(dashBoard.btnActiveIntell);
-            kComponent.add(dashBoard.btnAddFile);
-            kComponent.add(dashBoard.btnAddFriend);
-            kComponent.add(dashBoard.btnBrowseFont);
-            kComponent.add(dashBoard.btnConversation);
-            kComponent.add(dashBoard.btnLogout);
-            kComponent.add(dashBoard.btnReset);
-            kComponent.add(dashBoard.btnSend);
-            kComponent.add(dashBoard.btnShowIntell);
-            //---------------------------------------------------------
-
-            //set background
-            dashBoard.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.backGround.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.conversation.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.messageScrollPane.getViewport().setOpaque(false);
-            dashBoard.friendList.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.messageTextArea.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.txtReply.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.replyPane.setBackground(new Color(0, 0, 0, 0));
-            dashBoard.userPane.setBackground(new Color(0, 0, 0, 0));
-
-            //apply font
-            dashBoard.applyFont(dashBoard.btnSend, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.btnLogout, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.txtReply, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.btnConversation, "FVF Fernando 08.ttf", 9f);
-            dashBoard.applyFont(dashBoard.btnReset, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.btnBrowseFont, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.btnActiveIntell, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.btnAddFile, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.btnShowIntell, "SVN-Hole Hearted.ttf", 14f);
-            dashBoard.applyFont(dashBoard.messageTextArea, "SVN-Hole Hearted.ttf", 25f);
-            dashBoard.applyFont(dashBoard.lblChangeTheme, "FVF Fernando 08.ttf", 9f);
-            dashBoard.applyFont(dashBoard.lblChangeFont, "FVF Fernando 08.ttf", 9f);
-            dashBoard.applyFont(dashBoard.lblCodeSnippet, "FVF Fernando 08.ttf", 9f);
-            dashBoard.applyFont(dashBoard.lblUserName, "SVN-Hole Hearted.ttf", 15f);
-            dashBoard.applyFont(dashBoard.lblIsTyping, "SVN-Hole Hearted.ttf", 15f);
-            //set key binding for send button
-            dashBoard.keyBinding();
-
-            //show the whole frame
-            dashBoard.setVisible(true);
-
-        } catch (Exception ex) {
-
-        }
-
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -224,7 +242,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnAddFriend = new keeptoo.KButton();
         userPane = new keeptoo.KGradientPanel();
         lblUserName = new javax.swing.JLabel();
-        btnReset = new keeptoo.KButton();
+        btnShowConnection = new keeptoo.KButton();
         btnLogout = new keeptoo.KButton();
         changeThemePanel = new keeptoo.KGradientPanel();
         lblChangeTheme = new javax.swing.JLabel();
@@ -233,7 +251,9 @@ public class Dashboard extends javax.swing.JFrame {
         btnSetPinkBackground = new keeptoo.KButton();
         btnSetWhiteBackground = new keeptoo.KButton();
         btnSetTansparentBackground = new keeptoo.KButton();
-        friendList = new keeptoo.KGradientPanel();
+        friendListPanel = new keeptoo.KGradientPanel();
+        friendListScrollPane = new javax.swing.JScrollPane();
+        friendList = new javax.swing.JList<>();
         lblIsTyping = new javax.swing.JLabel();
         changeFontPanel = new keeptoo.KGradientPanel();
         lblChangeFont = new javax.swing.JLabel();
@@ -400,18 +420,18 @@ public class Dashboard extends javax.swing.JFrame {
         lblUserName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUserName.setText("userDio");
 
-        btnReset.setText("Reset");
-        btnReset.setkBackGroundColor(new java.awt.Color(51, 51, 51));
-        btnReset.setkBorderRadius(100);
-        btnReset.setkForeGround(new java.awt.Color(102, 255, 0));
-        btnReset.setkHoverForeGround(new java.awt.Color(51, 0, 51));
-        btnReset.setkHoverStartColor(new java.awt.Color(204, 255, 204));
-        btnReset.setkPressedColor(new java.awt.Color(0, 51, 51));
-        btnReset.setkSelectedColor(new java.awt.Color(51, 255, 204));
-        btnReset.setkStartColor(new java.awt.Color(0, 0, 0));
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
+        btnShowConnection.setText("Info");
+        btnShowConnection.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnShowConnection.setkBorderRadius(100);
+        btnShowConnection.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnShowConnection.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnShowConnection.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnShowConnection.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnShowConnection.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnShowConnection.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnShowConnection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
+                btnShowConnectionActionPerformed(evt);
             }
         });
 
@@ -438,7 +458,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(userPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userPaneLayout.createSequentialGroup()
-                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnShowConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(22, 22, 22))
@@ -453,7 +473,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(lblUserName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(userPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnShowConnection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -572,24 +592,42 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        friendList.setBackground(new java.awt.Color(255, 0, 255));
-        friendList.setkBorderRadius(30);
-        friendList.setkEndColor(new java.awt.Color(0, 204, 204));
-        friendList.setkFillBackground(false);
-        friendList.setkGradientFocus(450);
-        friendList.setkStartColor(new java.awt.Color(153, 255, 255));
-        friendList.setOpaque(false);
-        friendList.setPreferredSize(new java.awt.Dimension(0, 0));
+        friendListPanel.setBackground(new java.awt.Color(255, 0, 255));
+        friendListPanel.setkBorderRadius(30);
+        friendListPanel.setkEndColor(new java.awt.Color(0, 204, 204));
+        friendListPanel.setkFillBackground(false);
+        friendListPanel.setkGradientFocus(450);
+        friendListPanel.setkStartColor(new java.awt.Color(153, 255, 255));
+        friendListPanel.setkTransparentControls(false);
+        friendListPanel.setOpaque(false);
+        friendListPanel.setPreferredSize(new java.awt.Dimension(0, 0));
 
-        javax.swing.GroupLayout friendListLayout = new javax.swing.GroupLayout(friendList);
-        friendList.setLayout(friendListLayout);
-        friendListLayout.setHorizontalGroup(
-            friendListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        friendListScrollPane.setBorder(null);
+        friendListScrollPane.setOpaque(false);
+
+        friendList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        friendList.setOpaque(false);
+        friendListScrollPane.setViewportView(friendList);
+
+        javax.swing.GroupLayout friendListPanelLayout = new javax.swing.GroupLayout(friendListPanel);
+        friendListPanel.setLayout(friendListPanelLayout);
+        friendListPanelLayout.setHorizontalGroup(
+            friendListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(friendListPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(friendListScrollPane)
+                .addContainerGap())
         );
-        friendListLayout.setVerticalGroup(
-            friendListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 385, Short.MAX_VALUE)
+        friendListPanelLayout.setVerticalGroup(
+            friendListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(friendListPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(friendListScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         lblIsTyping.setText("  ");
@@ -836,7 +874,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(userPane, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                     .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(friendList, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+                    .addComponent(friendListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(backGroundLayout.createSequentialGroup()
                 .addGap(94, 94, 94)
@@ -858,7 +896,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(friendList, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(friendListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(backGroundLayout.createSequentialGroup()
                         .addComponent(conversation, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -900,7 +938,12 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        try{ 
+            client.send(new Message("message", getUsername(), ".bye", "SERVER")); 
+            this.dispose();
+        }  catch (Exception ex) { 
+                 
+           }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnConversationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConversationActionPerformed
@@ -909,9 +952,10 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
+        String target = this.friendList.getSelectedValue();
         String replyMsg = this.txtReply.getText();
         if (!"".equals(replyMsg) && !"Please type in here....".equals(replyMsg)) {
-
+            client.send(new Message("message", username, replyMsg, target));
             this.messageTextArea.append("User DIO1: " + replyMsg + "\n");
             this.txtReply.setText("");
             this.txtReply.requestFocus();
@@ -931,11 +975,7 @@ public class Dashboard extends javax.swing.JFrame {
     int testUserID = 0;
     private void btnAddFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFriendActionPerformed
         // TODO add your handling code here:
-        // replace userDIO with username from SOCKET       
-        this.applyModernView(this.friendList, userPane, btnAddFriend, Color.red, Color.pink, Color.black, Color.green, Color.white, Color.pink, Color.black, Color.pink, true, false, "userDIo " + this.testUserID);
-        this.testUserID++;
-        // this.friendListScrollPane.revalidate();
-        //this.friendListScrollPane.repaint();
+       
 
     }//GEN-LAST:event_btnAddFriendActionPerformed
 
@@ -943,6 +983,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.backGround.setkStartColor(Color.GREEN);
         this.backGround.setkEndColor(Color.GREEN);
+        this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
         this.backGround.repaint();
     }//GEN-LAST:event_btnSetGreenBackgroundActionPerformed
 
@@ -950,6 +991,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.backGround.setkStartColor(Color.RED);
         this.backGround.setkEndColor(Color.RED);
+        this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
         this.backGround.repaint();
     }//GEN-LAST:event_btnSetRedBackgroundActionPerformed
 
@@ -957,6 +999,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.backGround.setkStartColor(Color.PINK);
         this.backGround.setkEndColor(Color.PINK);
+        this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
         this.backGround.repaint();
     }//GEN-LAST:event_btnSetPinkBackgroundActionPerformed
 
@@ -965,6 +1008,7 @@ public class Dashboard extends javax.swing.JFrame {
         this.backGround.setkStartColor(new Color(0, 0, 0, 30));
         this.backGround.setkEndColor(new Color(0, 0, 0, 30));
         this.backGround.setkFillBackground(true);
+        this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
         this.backGround.repaint();
     }//GEN-LAST:event_btnSetTansparentBackgroundActionPerformed
 
@@ -972,6 +1016,7 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.backGround.setkStartColor(Color.WHITE);
         this.backGround.setkEndColor(Color.WHITE);
+        this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
         this.backGround.repaint();
     }//GEN-LAST:event_btnSetWhiteBackgroundActionPerformed
 
@@ -988,10 +1033,10 @@ public class Dashboard extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtReplyKeyReleased
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+    private void btnShowConnectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowConnectionActionPerformed
         // TODO add your handling code here:
-        initSetting();
-    }//GEN-LAST:event_btnResetActionPerformed
+        JOptionPane.showMessageDialog(this,"Username: " +  this.getUsername() + " at port " + this.getPort() + " at " + this.getServerAddr() + ".");
+    }//GEN-LAST:event_btnShowConnectionActionPerformed
 
     private void btnSetRedFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetRedFontActionPerformed
         // TODO add your handling code here:
@@ -1092,7 +1137,8 @@ public class Dashboard extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                initSetting();
+                new Dashboard().setVisible(true);
+              //  initSetting();
 
             }
 
@@ -1107,7 +1153,6 @@ public class Dashboard extends javax.swing.JFrame {
     private keeptoo.KButton btnBrowseFont;
     private keeptoo.KButton btnConversation;
     private keeptoo.KButton btnLogout;
-    private keeptoo.KButton btnReset;
     private keeptoo.KButton btnSend;
     private keeptoo.KButton btnSetGreenBackground;
     private keeptoo.KButton btnSetGreenFont;
@@ -1119,12 +1164,15 @@ public class Dashboard extends javax.swing.JFrame {
     private keeptoo.KButton btnSetTansparentFont;
     private keeptoo.KButton btnSetWhiteBackground;
     private keeptoo.KButton btnSetWhiteFont;
+    private keeptoo.KButton btnShowConnection;
     private keeptoo.KButton btnShowIntell;
     private keeptoo.KGradientPanel changeFontPanel;
     private keeptoo.KGradientPanel changeThemePanel;
     private keeptoo.KGradientPanel codeSnippetPanel;
     private keeptoo.KGradientPanel conversation;
-    private keeptoo.KGradientPanel friendList;
+    private javax.swing.JList<String> friendList;
+    private keeptoo.KGradientPanel friendListPanel;
+    private javax.swing.JScrollPane friendListScrollPane;
     private javax.swing.JLabel lblChangeFont;
     private javax.swing.JLabel lblChangeTheme;
     private javax.swing.JLabel lblCodeSnippet;

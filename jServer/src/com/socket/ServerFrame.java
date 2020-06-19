@@ -1,8 +1,6 @@
 package com.socket;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
@@ -42,7 +40,6 @@ public class ServerFrame extends javax.swing.JFrame {
         setTitle("jServer");
 
         jButton1.setText("Start Server");
-        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
