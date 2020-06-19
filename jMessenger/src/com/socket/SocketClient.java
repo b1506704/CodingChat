@@ -1,13 +1,9 @@
 package com.socket;
 
-import com.ui.ChatFrame;
 import com.ui.Dashboard;
 import java.io.*;
 import java.net.*;
 import java.util.Date;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import com.ui.LoginRegister;
 public class SocketClient implements Runnable{
     
@@ -19,7 +15,6 @@ public class SocketClient implements Runnable{
     public ObjectInputStream In;
     public ObjectOutputStream Out;
     public History hist;
-    public LoginRegister loginRegister;
     public SocketClient(LoginRegister loginRegister) throws IOException{
         logUI = loginRegister; 
         this.serverAddr = logUI.getServerAddr(); 
@@ -40,7 +35,7 @@ public class SocketClient implements Runnable{
             try {
                 Message msg = (Message) In.readObject();
                 System.out.println("Incoming : "+msg.toString());
-                
+                //can't interact with Dashboard yet <== check
                 if(msg.type.equals("message")){
                     if(msg.recipient.equals(logUI.getUsername())){
                         chatUI.messageTextArea.append("["+msg.sender +" > Me] : " + msg.content + "\n");
@@ -62,16 +57,20 @@ public class SocketClient implements Runnable{
                 }
                 else if(msg.type.equals("login")){
                     if(msg.content.equals("TRUE")){
-                        chatUI = new Dashboard();
-                        chatUI.initSetting();
+                        chatUI = new Dashboard(this);
+                        chatUI.setUsername(logUI.getUsername());
+                        chatUI.setPort(logUI.getPort());
+                        chatUI.setServerAddr(logUI.getServerAddr());
+                        chatUI.clientThread=logUI.clientThread;
+                        chatUI.setVisible(true);
                         chatUI.toFront();
-                        chatUI.messageTextArea.append("[SERVER > Me] : Login Successful\n");
+                       // chatUI.wait();
+                       
 
-                        //ui.jTextField3.setEnabled(false); ui.jPasswordField1.setEnabled(false);
                     }
                     else{
                         //show dialog
-                        //chatUI.messageTextArea.append("[SERVER > Me] : Login Failed\n");
+                        logUI.showLoginInformation();
                     }
                 }
 //                else if(msg.type.equals("test")){
@@ -83,9 +82,10 @@ public class SocketClient implements Runnable{
 //                }
                 else if(msg.type.equals("newuser")){
                     //show user online
+                    // login--> newuser
 //                    if(!msg.content.equals(logUI.getUsername())){
 //                        boolean exists = false;
-//                        for(int i = 0; i < chatUI.model.getSize(); i++){
+//                        for(int i = 0; i < chatUI..getSize(); i++){
 //                            if(ui.model.getElementAt(i).equals(msg.content)){
 //                                exists = true; break;
 //                            }
@@ -98,10 +98,10 @@ public class SocketClient implements Runnable{
 //                        ui.jButton2.setEnabled(false); ui.jButton3.setEnabled(false);
 //                        ui.jButton4.setEnabled(true); ui.jButton5.setEnabled(true);
                         //show information register dialog
-                        //logUI.jTextArea1.append("[SERVER > Me] : Singup Successful\n");
+                        
                     }
                     else{
-                      //  ui.jTextArea1.append("[SERVER > Me] : Signup Failed\n");
+                        logUI.showRegisterInformation();
                     }
                 }
                 else if(msg.type.equals("signout")){

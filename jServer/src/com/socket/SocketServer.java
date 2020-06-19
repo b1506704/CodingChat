@@ -3,6 +3,7 @@ package com.socket;
 import java.io.*;
 import java.net.*;
 
+//Handle thread
 class ServerThread extends Thread { 
 	
     public SocketServer server = null;
@@ -68,22 +69,22 @@ class ServerThread extends Thread {
 
 
 
-
+//Handle connection
 public class SocketServer implements Runnable {
-    
+    //create an array of thread
     public ServerThread clients[];
     public ServerSocket server = null;
     public Thread       thread = null;
     public int clientCount = 0, port = 13000;
     public ServerFrame ui;
-    public Database db;
+   // public Database db;
     public DatabaseSQL dbSQL = new DatabaseSQL();
 
     public SocketServer(ServerFrame frame){
-       
+        //number of running clients
         clients = new ServerThread[50];
         ui = frame;
-        db = new Database(ui.filePath);
+        //db = new Database(ui.filePath);
          
 	try{  
 	    server = new ServerSocket(port);
@@ -102,7 +103,7 @@ public class SocketServer implements Runnable {
         clients = new ServerThread[50];
         ui = frame;
         port = Port;
-        db = new Database(ui.filePath);
+       // db = new Database(ui.filePath);
         
 	try{  
 	    server = new ServerSocket(port);
@@ -160,12 +161,6 @@ public class SocketServer implements Runnable {
 	else{
             if(msg.type.equals("login")){
                 if(findUserThread(msg.sender) == null){
-//                    if(db.checkLogin(msg.sender, msg.content)){
-//                        clients[findClient(ID)].username = msg.sender;
-//                        clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
-//                        Announce("newuser", "SERVER", msg.sender);
-//                        SendUserList(msg.sender);
-//                    }
                     if (dbSQL.CheckLogin(msg.sender, msg.content)) {
                         clients[findClient(ID)].username = msg.sender;
                         clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));

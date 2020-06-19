@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import keeptoo.Drag;
@@ -37,6 +38,7 @@ public class LoginRegister extends javax.swing.JFrame {
     private String username;
     private String password;
     public Thread clientThread;
+   // public Dashboard dashBoard;
     public LoginRegister() {
         initComponents();
         
@@ -117,20 +119,6 @@ public class LoginRegister extends javax.swing.JFrame {
         Action login = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
-                    setUsername(txtID.getText().trim());
-                    setPassword(txtPassword.getText().trim());
-                    Dashboard dashBoard = new Dashboard();
-            //don't setVisible()here ==> 2x setVisible() reset components.
-                    Dashboard.initSetting();
-                    dashBoard.toFront();
-                    //==> Socket code here
-                    
-                } else {
-                    
-                    
-                }
-                
 
             }
         };
@@ -515,31 +503,42 @@ public class LoginRegister extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnRegisterActionPerformed
-
+    public void showLoginInformation(){
+        JOptionPane.showMessageDialog(rootPane, "Login failed! Please check username or password");
+    
+    }
+    public void showRegisterInformation(){
+        JOptionPane.showMessageDialog(rootPane, "Register failed! Please check username or password");
+    
+    }
+    
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // get ID and password input to check with Socket and database
         if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
                     setUsername(txtID.getText().trim());
                     setPassword(txtPassword.getText().trim());
                     //==> Socket code here
-                    username = getUsername();
-                    password = getPassword();
-        
-        if(!username.isEmpty() && !password.isEmpty()){
-            try{
-               // client = new SocketClient(this);
-                clientThread = new Thread(client);
-                clientThread.start();
-                client.send(new Message("test", "testUser", "testContent", "SERVER"));
-            }
-            catch(Exception ex){
-                //jTextArea1.append("[Application > Me] : Server not found\n");
-            }
-            
-            client.send(new Message("login", username, password, "SERVER"));
-        }
+                    //username = getUsername();
+                   // password = getPassword();
+                    if(!username.isEmpty() && !password.isEmpty()){
+                        try{
+                            client = new SocketClient(this);
+                            clientThread = new Thread(client);
+                            clientThread.start();
+                            //client.send(new Message("test", "testUser", "testContent", "SERVER"));
+                            client.send(new Message("login", username, password, "SERVER"));
+                            //dashBoard.clientThread=clientThread;
+                            
+                             
+                        }
+                        catch(Exception ex){
+                            //JOptionPane.showMessageDialog(rootPane, "Login fail! Please check username or password");
+                        }
+
+
+                    }
                 } else {
-                    
+                    JOptionPane.showMessageDialog(rootPane, "Please check input!");
                     
                 }
         
@@ -558,7 +557,15 @@ public class LoginRegister extends javax.swing.JFrame {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        try{ 
+            client.send(new Message("message", username, ".bye", "SERVER")); 
+            clientThread.stop();
+            System.exit(0);
+        } catch (Exception e){
+            
+        }
+        
+        
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**
