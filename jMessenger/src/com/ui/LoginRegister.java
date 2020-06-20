@@ -157,10 +157,6 @@ public class LoginRegister extends javax.swing.JFrame {
             loginForm.applyFont(loginForm.btnRegister,"VL COCO.OTF",25f);
             loginForm.applyFont(loginForm.btnHidePass,"FVF Fernando 08.ttf",8f);
             loginForm.applyFont(loginForm.btnLogout, "Vanessas Valentine.otf",40F);
-            
-            
-            //socket
-            loginForm.client= new SocketClient(loginForm);
             //show frame
             loginForm.setVisible(true);
             loginForm.txtID.requestFocus();
@@ -476,22 +472,16 @@ public class LoginRegister extends javax.swing.JFrame {
         if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
                     setUsername(txtID.getText().trim());
                     setPassword(txtPassword.getText().trim());
-                   // Dashboard dashBoard = new Dashboard();
-            //don't setVisible()here ==> 2x setVisible() reset components.
-                    //Dashboard.initSetting();
-                    //dashBoard.toFront();
                     //==> Socket code here
                     username = getUsername();
                     password = getPassword();
                     if(!username.isEmpty() && !password.isEmpty()){
                        try{
-               // client = new SocketClient(this);
+                             client = new SocketClient(this);
                              clientThread = new Thread(client);
                              clientThread.start();
-                             client.send(new Message("test", "testUser", "testContent", "SERVER"));
                         }
                        catch(Exception ex){
-                //jTextArea1.append("[Application > Me] : Server not found\n");
                         }
                     if(!username.isEmpty() && !password.isEmpty()){
                         client.send(new Message("signup", username, password, "SERVER"));
@@ -508,7 +498,7 @@ public class LoginRegister extends javax.swing.JFrame {
     
     }
     public void showRegisterInformation(){
-        JOptionPane.showMessageDialog(rootPane, "Register failed! Please check username or password");
+        JOptionPane.showMessageDialog(rootPane, "Register failed!\n Please check username or password");
     
     }
     
@@ -518,31 +508,19 @@ public class LoginRegister extends javax.swing.JFrame {
                     setUsername(txtID.getText().trim());
                     setPassword(txtPassword.getText().trim());
                     //==> Socket code here
-                    //username = getUsername();
-                   // password = getPassword();
                     if(!username.isEmpty() && !password.isEmpty()){
                         try{
                             client = new SocketClient(this);
                             clientThread = new Thread(client);
                             clientThread.start();
-                            //client.send(new Message("test", "testUser", "testContent", "SERVER"));
                             client.send(new Message("login", username, password, "SERVER"));
-                            //dashBoard.clientThread=clientThread;
-                            
-                             
                         }
                         catch(Exception ex){
-                            //JOptionPane.showMessageDialog(rootPane, "Login fail! Please check username or password");
                         }
-
-
                     }
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Please check input!");
-                    
                 }
-        
-        //
     }//GEN-LAST:event_btnLoginActionPerformed
     int count=0;
     private void btnHidePassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHidePassActionPerformed

@@ -1,10 +1,8 @@
 package com.socket;
 
-import com.ui.ChatFrame;
+import com.ui.Dashboard;
 import java.io.*;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Upload implements Runnable{
 
@@ -14,9 +12,9 @@ public class Upload implements Runnable{
     public FileInputStream In;
     public OutputStream Out;
     public File file;
-    public ChatFrame ui;
+    public Dashboard ui;
     
-    public Upload(String addr, int port, File filepath, ChatFrame frame){
+    public Upload(String addr, int port, File filepath, Dashboard frame){
         super();
         try {
             file = filepath; ui = frame;
@@ -40,9 +38,7 @@ public class Upload implements Runnable{
             }
             Out.flush();
             
-            ui.jTextArea1.append("[Applcation > Me] : File upload complete\n");
-            ui.jButton5.setEnabled(true); ui.jButton6.setEnabled(true);
-            ui.jTextField5.setVisible(true);
+            ui.messageTextArea.append("[Applcation > Me] : File upload complete\n");
             
             if(In != null){ In.close(); }
             if(Out != null){ Out.close(); }
