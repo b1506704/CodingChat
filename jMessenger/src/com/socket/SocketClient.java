@@ -64,6 +64,7 @@ public class SocketClient implements Runnable{
                 }
                 else if(msg.type.equals("signup")){
                     if(msg.content.equals("TRUE")){
+                        JOptionPane.showMessageDialog(chatUI, "Register successfully");
                     }
                     else{
                         //show error register dialog

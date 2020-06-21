@@ -147,7 +147,7 @@ public final class Dashboard extends javax.swing.JFrame {
             this.applyFont(this.lblCodeSnippet, "FVF Fernando 08.ttf", 9f);
             this.applyFont(this.lblUserName, "SVN-Hole Hearted.ttf", 15f);
             this.applyFont(this.lblIsTyping, "SVN-Hole Hearted.ttf", 15f);
-            
+            this.applyFont(this.friendList,"SVN-Hole Hearted.ttf", 15f);
             //keybinding
             this.keyBinding();
             //socket
@@ -970,8 +970,8 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private void btnSetTansparentBackgroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetTansparentBackgroundActionPerformed
         // TODO add your handling code here:
-        this.backGround.setkStartColor(new Color(0, 0, 0, 30));
-        this.backGround.setkEndColor(new Color(0, 0, 0, 30));
+        this.backGround.setkStartColor(new Color(0, 0, 0, 100));
+        this.backGround.setkEndColor(new Color(0, 0, 0, 100));
         this.backGround.setkFillBackground(true);
         this.friendList.setSelectionBackground(this.backGround.kStartColor.darker());
         this.backGround.repaint();

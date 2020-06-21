@@ -473,24 +473,20 @@ public class LoginRegister extends javax.swing.JFrame {
                     setUsername(txtID.getText().trim());
                     setPassword(txtPassword.getText().trim());
                     //==> Socket code here
-                    username = getUsername();
-                    password = getPassword();
                     if(!username.isEmpty() && !password.isEmpty()){
                        try{
                              client = new SocketClient(this);
                              clientThread = new Thread(client);
                              clientThread.start();
+                             client.send(new Message("signup", getUsername(), getPassword(), "SERVER"));
                         }
                        catch(Exception ex){
+                           
                         }
-                    if(!username.isEmpty() && !password.isEmpty()){
-                        client.send(new Message("signup", username, password, "SERVER"));
-                    }
-                } else {
-                    
-                    
-                }
-        }
+                } 
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Please check input!");
+          }
         
     }//GEN-LAST:event_btnRegisterActionPerformed
     public void showLoginInformation(){
