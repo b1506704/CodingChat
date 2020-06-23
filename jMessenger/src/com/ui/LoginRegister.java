@@ -34,13 +34,14 @@ public class LoginRegister extends javax.swing.JFrame {
      */
     public SocketClient client;
     private int port=13000;
-    private String serverAddr ="localhost";
+    private String serverAddr;
     private String username;
     private String password;
     public Thread clientThread;
    // public Dashboard dashBoard;
     public LoginRegister() {
         initComponents();
+        serverAddr = this.txtServerIP.getText();
         
     }
     
@@ -187,6 +188,7 @@ public class LoginRegister extends javax.swing.JFrame {
         txtID = new javax.swing.JTextField();
         txtPasswordPanel = new keeptoo.KGradientPanel();
         txtPassword = new javax.swing.JPasswordField();
+        txtServerIP = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -416,6 +418,8 @@ public class LoginRegister extends javax.swing.JFrame {
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backGroundLayout.createSequentialGroup()
                         .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtServerIP, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -435,7 +439,9 @@ public class LoginRegister extends javax.swing.JFrame {
                                 .addGap(31, 31, 31)
                                 .addComponent(lblTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addComponent(txtServerIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(loginRegisterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
         );
@@ -594,6 +600,7 @@ public class LoginRegister extends javax.swing.JFrame {
     private keeptoo.KGradientPanel txtIDPanel;
     private javax.swing.JPasswordField txtPassword;
     private keeptoo.KGradientPanel txtPasswordPanel;
+    private javax.swing.JTextField txtServerIP;
     // End of variables declaration//GEN-END:variables
 
    
