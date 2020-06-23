@@ -41,7 +41,7 @@ public class LoginRegister extends javax.swing.JFrame {
    // public Dashboard dashBoard;
     public LoginRegister() {
         initComponents();
-        serverAddr = this.txtServerIP.getText();
+        
         
     }
     
@@ -475,6 +475,7 @@ public class LoginRegister extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         //add ID and Password to Socket and database
+        serverAddr = this.txtServerIP.getText();
         if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
                     setUsername(txtID.getText().trim());
                     setPassword(txtPassword.getText().trim());
@@ -506,6 +507,7 @@ public class LoginRegister extends javax.swing.JFrame {
     
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // get ID and password input to check with Socket and database
+        serverAddr = this.txtServerIP.getText();
         if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
                     setUsername(txtID.getText().trim());
                     setPassword(txtPassword.getText().trim());
@@ -542,7 +544,7 @@ public class LoginRegister extends javax.swing.JFrame {
             clientThread.stop();
             System.exit(0);
         } catch (Exception e){
-            
+            System.exit(0);
         }
         
         
