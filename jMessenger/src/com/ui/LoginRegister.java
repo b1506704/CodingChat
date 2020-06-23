@@ -520,6 +520,7 @@ public class LoginRegister extends javax.swing.JFrame {
                             client.send(new Message("login", username, password, "SERVER"));
                         }
                         catch(Exception ex){
+                            JOptionPane.showMessageDialog(rootPane, "No server found!");
                         }
                     }
                 } else {
