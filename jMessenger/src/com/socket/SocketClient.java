@@ -36,7 +36,7 @@ public class SocketClient implements Runnable{
                 System.out.println("Incoming : "+msg.toString());
                 if(msg.type.equals("message")){
                     if(msg.recipient.equals(logUI.getUsername())){
-                        chatUI.messageTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content + "\n");
+                        chatUI.messageTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content +"2 gio"+"\n" );
                     }
                     else{
                         chatUI.messageTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content + "\n");

@@ -906,8 +906,9 @@ public final class Dashboard extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         try{ 
-            client.send(new Message("message", getUsername(), ".bye", "SERVER")); 
+            client.send(new Message("messagxc e", getUsername(), ".bye", "SERVER")); 
             this.dispose();
+            
         }  catch (Exception ex) { 
                  
            }
