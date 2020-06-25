@@ -3,3 +3,12 @@
 
 jMessenger/build/classes/.netbeans_automatic_build
 jMessenger/build/classes/.netbeans_update_resources
+*.class
+*.class
+*.properties
+*.xml
+*.properties
+*.html
+*.xml
+jMessenger/nbproject/private/private.xml
+*.class

@@ -3,6 +3,7 @@ package com.socket;
 import java.io.*;
 import java.net.*;
 
+//Handle thread
 class ServerThread extends Thread { 
 	
     public SocketServer server = null;
@@ -12,13 +13,14 @@ class ServerThread extends Thread {
     public ObjectInputStream streamIn  =  null;
     public ObjectOutputStream streamOut = null;
     public ServerFrame ui;
-
+    
     public ServerThread(SocketServer _server, Socket _socket){  
     	super();
         server = _server;
         socket = _socket;
         ID     = socket.getPort();
         ui = _server.ui;
+        
     }
     
     public void send(Message msg){
@@ -37,7 +39,7 @@ class ServerThread extends Thread {
    
     @SuppressWarnings("deprecation")
 	public void run(){  
-    	ui.jTextArea1.append("\nServer Thread " + ID + " running.");
+    	ui.socketLog.append("\nServer Thread " + ID + " running.");
         while (true){  
     	    try{  
                 Message msg = (Message) streamIn.readObject();
@@ -67,30 +69,31 @@ class ServerThread extends Thread {
 
 
 
-
+//Handle connection
 public class SocketServer implements Runnable {
-    
+    //create an array of thread
     public ServerThread clients[];
     public ServerSocket server = null;
     public Thread       thread = null;
     public int clientCount = 0, port = 13000;
     public ServerFrame ui;
-    public Database db;
+   // public Database db;
+    public DatabaseSQL dbSQL = new DatabaseSQL();
 
     public SocketServer(ServerFrame frame){
-       
+        //number of running clients
         clients = new ServerThread[50];
         ui = frame;
-        db = new Database(ui.filePath);
-        
+        //db = new Database(ui.filePath);
+         
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
-	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
+	    ui.socketLog.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
 	    start(); 
         }
 	catch(IOException ioe){  
-            ui.jTextArea1.append("Can not bind to port : " + port + "\nRetrying"); 
+            ui.socketLog.append("Can not bind to port : " + port + "\nRetrying"); 
             ui.RetryStart(0);
 	}
     }
@@ -100,27 +103,27 @@ public class SocketServer implements Runnable {
         clients = new ServerThread[50];
         ui = frame;
         port = Port;
-        db = new Database(ui.filePath);
+       // db = new Database(ui.filePath);
         
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
-	    ui.jTextArea1.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
+	    ui.socketLog.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
 	    start(); 
         }
 	catch(IOException ioe){  
-            ui.jTextArea1.append("\nCan not bind to port " + port + ": " + ioe.getMessage()); 
+            ui.socketLog.append("\nCan not bind to port " + port + ": " + ioe.getMessage()); 
 	}
     }
 	
     public void run(){  
 	while (thread != null){  
             try{  
-		ui.jTextArea1.append("\nWaiting for a client ..."); 
+		ui.socketLog.append("\nWaiting for a client ..."); 
 	        addThread(server.accept()); 
 	    }
 	    catch(Exception ioe){ 
-                ui.jTextArea1.append("\nServer accept error: \n");
+                ui.socketLog.append("\nServer accept error: \n");
                 ui.RetryStart(0);
 	    }
         }
@@ -158,7 +161,7 @@ public class SocketServer implements Runnable {
 	else{
             if(msg.type.equals("login")){
                 if(findUserThread(msg.sender) == null){
-                    if(db.checkLogin(msg.sender, msg.content)){
+                    if (dbSQL.CheckLogin(msg.sender, msg.content)) {
                         clients[findClient(ID)].username = msg.sender;
                         clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
                         Announce("newuser", "SERVER", msg.sender);
@@ -186,8 +189,8 @@ public class SocketServer implements Runnable {
             }
             else if(msg.type.equals("signup")){
                 if(findUserThread(msg.sender) == null){
-                    if(!db.userExists(msg.sender)){
-                        db.addUser(msg.sender, msg.content);
+                    if(!dbSQL.CheckUser(msg.sender)){
+                        dbSQL.addUser(msg.sender, msg.content);
                         clients[findClient(ID)].username = msg.sender;
                         clients[findClient(ID)].send(new Message("signup", "SERVER", "TRUE", msg.sender));
                         clients[findClient(ID)].send(new Message("login", "SERVER", "TRUE", msg.sender));
@@ -249,7 +252,7 @@ public class SocketServer implements Runnable {
     int pos = findClient(ID);
         if (pos >= 0){  
             ServerThread toTerminate = clients[pos];
-            ui.jTextArea1.append("\nRemoving client thread " + ID + " at " + pos);
+            ui.socketLog.append("\nRemoving client thread " + ID + " at " + pos);
 	    if (pos < clientCount-1){
                 for (int i = pos+1; i < clientCount; i++){
                     clients[i-1] = clients[i];
@@ -260,7 +263,7 @@ public class SocketServer implements Runnable {
 	      	toTerminate.close(); 
 	    }
 	    catch(IOException ioe){  
-	      	ui.jTextArea1.append("\nError closing thread: " + ioe); 
+	      	ui.socketLog.append("\nError closing thread: " + ioe); 
 	    }
 	    toTerminate.stop(); 
 	}
@@ -268,7 +271,7 @@ public class SocketServer implements Runnable {
     
     private void addThread(Socket socket){  
 	if (clientCount < clients.length){  
-            ui.jTextArea1.append("\nClient accepted: " + socket);
+            ui.socketLog.append("\nClient accepted: " + socket);
 	    clients[clientCount] = new ServerThread(this, socket);
 	    try{  
 	      	clients[clientCount].open(); 
@@ -276,11 +279,11 @@ public class SocketServer implements Runnable {
 	        clientCount++; 
 	    }
 	    catch(IOException ioe){  
-	      	ui.jTextArea1.append("\nError opening thread: " + ioe); 
+	      	ui.socketLog.append("\nError opening thread: " + ioe); 
 	    } 
 	}
 	else{
-            ui.jTextArea1.append("\nClient refused: maximum " + clients.length + " reached.");
+            ui.socketLog.append("\nClient refused: maximum " + clients.length + " reached.");
 	}
     }
 }

@@ -1,22 +1,20 @@
 package com.socket;
 
-import com.ui.ChatFrame;
+import com.ui.Dashboard;
 import java.io.*;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Download implements Runnable{
     
     public ServerSocket server;
     public Socket socket;
-    public int port;
+    public int port=13000;
     public String saveTo = "";
     public InputStream In;
     public FileOutputStream Out;
-    public ChatFrame ui;
+    public Dashboard ui;
     
-    public Download(String saveTo, ChatFrame ui){
+    public Download(String saveTo, Dashboard ui){
         try {
             server = new ServerSocket(0);
             port = server.getLocalPort();
@@ -46,7 +44,7 @@ public class Download implements Runnable{
             
             Out.flush();
             
-            ui.jTextArea1.append("[Application > Me] : Download complete\n");
+            ui.messageTextArea.append("[Application > Me] : Download complete\n");
             
             if(Out != null){ Out.close(); }
             if(In != null){ In.close(); }
