@@ -3,6 +3,8 @@ package com.socket;
 import com.ui.Dashboard;
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Upload implements Runnable{
 
@@ -37,8 +39,9 @@ public class Upload implements Runnable{
                 Out.write(buffer, 0, count);
             }
             Out.flush();
-            
-            ui.messageTextArea.append("[Applcation > Me] : File upload complete\n");
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
+            ui.messageTextArea.append("[Applcation > Me] : File upload complete"+"     \n\t\t\t\t[" + formatter.format(date)+  "]\n");
             
             if(In != null){ In.close(); }
             if(Out != null){ Out.close(); }

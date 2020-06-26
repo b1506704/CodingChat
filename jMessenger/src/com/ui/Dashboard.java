@@ -12,10 +12,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -25,6 +29,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import keeptoo.Drag;
 import keeptoo.KButton;
@@ -78,13 +83,17 @@ public final class Dashboard extends javax.swing.JFrame {
     }
     public static ArrayList<JComponent> jComponent = new ArrayList<>();
     public static ArrayList<KButton> kComponent = new ArrayList<>();
+    public ArrayList<String> keywords;
     public DefaultListModel model;
     public File file;
     public String fileStr;
+    public String fontStr;
     public SocketClient client;
     private int port;
     private String serverAddr;
     private String username;
+    private static final String COMMIT_ACTION = "commit";
+    AutoComplete autoComplete;
     public Thread clientThread;
      /**
      * Creates new form Dashboard
@@ -103,14 +112,15 @@ public final class Dashboard extends javax.swing.JFrame {
             jComponent.add(this.friendList);
             jComponent.add(this.friendListScrollPane.getViewport());
             jComponent.add(this.txtReply);
+            jComponent.add(this.lblAppTime);
+            jComponent.add(this.txtInsertCode);
             kComponent.add(this.btnActiveIntell);
             kComponent.add(this.btnAddFile);
             kComponent.add(this.btnShowMenu);
-            kComponent.add(this.btnBrowseFont);
             kComponent.add(this.btnLogout);
             kComponent.add(this.btnShowConnection);
             kComponent.add(this.btnSend);
-            kComponent.add(this.btnShowIntell);
+            kComponent.add(this.btnAddCode);
             //set model for friendList
             model.addElement("All");
             friendList.setSelectedIndex(0);
@@ -122,7 +132,7 @@ public final class Dashboard extends javax.swing.JFrame {
             this.conversation.setBackground(new Color(0, 0, 0, 0));
             this.messageScrollPane.getViewport().setOpaque(false);
             this.messageTextArea.setBackground(new Color(0, 0, 0, 0));
-            
+            this.txtInsertCode.setBackground(new Color(0,0,0,0));
             this.txtReply.setBackground(new Color(0, 0, 0, 0));
             this.replyPane.setBackground(new Color(0, 0, 0, 0));
             this.userPane.setBackground(new Color(0, 0, 0, 0));
@@ -133,14 +143,14 @@ public final class Dashboard extends javax.swing.JFrame {
             
             
             //apply font
+            
             this.applyFont(this.btnSend, "SVN-Hole Hearted.ttf", 14f);
             this.applyFont(this.btnLogout, "SVN-Hole Hearted.ttf", 14f);
             this.applyFont(this.txtReply, "SVN-Hole Hearted.ttf", 14f);
             this.applyFont(this.btnShowConnection, "SVN-Hole Hearted.ttf", 14f);
-            this.applyFont(this.btnBrowseFont, "SVN-Hole Hearted.ttf", 14f);
             this.applyFont(this.btnActiveIntell, "SVN-Hole Hearted.ttf", 14f);
             this.applyFont(this.btnAddFile, "SVN-Hole Hearted.ttf", 14f);
-            this.applyFont(this.btnShowIntell, "SVN-Hole Hearted.ttf", 14f);
+            this.applyFont(this.btnAddCode, "SVN-Hole Hearted.ttf", 14f);
             this.applyFont(this.messageTextArea, "SVN-Hole Hearted.ttf", 25f);
             this.applyFont(this.lblChangeTheme, "FVF Fernando 08.ttf", 9f);
             this.applyFont(this.lblChangeFont, "FVF Fernando 08.ttf", 9f);
@@ -148,12 +158,36 @@ public final class Dashboard extends javax.swing.JFrame {
             this.applyFont(this.lblUserName, "SVN-Hole Hearted.ttf", 15f);
             this.applyFont(this.lblIsTyping, "SVN-Hole Hearted.ttf", 15f);
             this.applyFont(this.friendList,"SVN-Hole Hearted.ttf", 15f);
+            this.applyFont(this.lblAppTime,"SVN-Hole Hearted.ttf", 15f);
+            this.applyFont(this.txtInsertCode,"FVF Fernando 08.ttf", 9f);
             //keybinding
             this.keyBinding();
-            //socket
-            
+            //Java Intellsense
+            this.messageTextArea.setFocusTraversalKeysEnabled(false);
+            keywords = new ArrayList<>(100);
+            keywords.add("system.out.println()");
+            keywords.add("for (int i=0; i<=n ; i++) { }");
+            keywords.add("while (true) {}");
+            keywords.add("if (true) {}");
+            keywords.add("try {} catch (Exception ex) {}");
+             //socket
             this.client=client;
             //
+            //set time
+            ActionListener actionListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Date date = new Date();
+                    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss dd/MM/YYYY");
+                    String time = timeFormat.format(date);
+                    lblAppTime.setText(time);
+                }
+            };
+            Timer timer = new Timer(1000, actionListener);
+            timer.setInitialDelay(0);
+            timer.start();
+    
+           
             
     }
     public Dashboard() {}
@@ -222,15 +256,16 @@ public final class Dashboard extends javax.swing.JFrame {
         btnSetPinkFont = new keeptoo.KButton();
         btnSetWhiteFont = new keeptoo.KButton();
         btnSetTansparentFont = new keeptoo.KButton();
-        btnBrowseFont = new keeptoo.KButton();
         codeSnippetPanel = new keeptoo.KGradientPanel();
         lblCodeSnippet = new javax.swing.JLabel();
-        btnShowIntell = new keeptoo.KButton();
+        btnAddCode = new keeptoo.KButton();
         btnActiveIntell = new keeptoo.KButton();
+        txtInsertCode = new javax.swing.JTextField();
         userPane = new keeptoo.KGradientPanel();
         lblUserName = new javax.swing.JLabel();
         btnShowConnection = new keeptoo.KButton();
         btnLogout = new keeptoo.KButton();
+        lblAppTime = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("dashBoard"); // NOI18N
@@ -604,61 +639,39 @@ public final class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        btnBrowseFont.setText("Browse");
-        btnBrowseFont.setkBorderRadius(100);
-        btnBrowseFont.setkForeGround(new java.awt.Color(102, 255, 0));
-        btnBrowseFont.setkHoverForeGround(new java.awt.Color(51, 0, 51));
-        btnBrowseFont.setkHoverStartColor(new java.awt.Color(204, 255, 204));
-        btnBrowseFont.setkPressedColor(new java.awt.Color(0, 51, 51));
-        btnBrowseFont.setkSelectedColor(new java.awt.Color(51, 255, 204));
-        btnBrowseFont.setkStartColor(new java.awt.Color(0, 0, 0));
-        btnBrowseFont.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBrowseFontActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout changeFontPanelLayout = new javax.swing.GroupLayout(changeFontPanel);
         changeFontPanel.setLayout(changeFontPanelLayout);
         changeFontPanelLayout.setHorizontalGroup(
             changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(changeFontPanelLayout.createSequentialGroup()
+                .addContainerGap(56, Short.MAX_VALUE)
                 .addGroup(changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(changeFontPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, changeFontPanelLayout.createSequentialGroup()
                         .addComponent(lblChangeFont)
-                        .addGap(38, 38, 38))
-                    .addGroup(changeFontPanelLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
+                        .addGap(111, 111, 111))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, changeFontPanelLayout.createSequentialGroup()
                         .addComponent(btnSetRedFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSetGreenFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSetPinkFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSetWhiteFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSetTansparentFont, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)))
-                .addComponent(btnBrowseFont, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                        .addGap(62, 62, 62))))
         );
         changeFontPanelLayout.setVerticalGroup(
             changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(changeFontPanelLayout.createSequentialGroup()
-                .addGroup(changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(changeFontPanelLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(btnBrowseFont, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, changeFontPanelLayout.createSequentialGroup()
-                        .addComponent(lblChangeFont, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSetGreenFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSetPinkFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSetWhiteFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSetTansparentFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSetRedFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addComponent(lblChangeFont, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(changeFontPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSetGreenFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetPinkFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetWhiteFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetTansparentFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSetRedFont, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -671,18 +684,18 @@ public final class Dashboard extends javax.swing.JFrame {
         lblCodeSnippet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCodeSnippet.setText("Java Intellisense");
 
-        btnShowIntell.setText("Show");
-        btnShowIntell.setkBackGroundColor(new java.awt.Color(51, 51, 51));
-        btnShowIntell.setkBorderRadius(100);
-        btnShowIntell.setkForeGround(new java.awt.Color(102, 255, 0));
-        btnShowIntell.setkHoverForeGround(new java.awt.Color(51, 0, 51));
-        btnShowIntell.setkHoverStartColor(new java.awt.Color(204, 255, 204));
-        btnShowIntell.setkPressedColor(new java.awt.Color(0, 51, 51));
-        btnShowIntell.setkSelectedColor(new java.awt.Color(51, 255, 204));
-        btnShowIntell.setkStartColor(new java.awt.Color(0, 0, 0));
-        btnShowIntell.addActionListener(new java.awt.event.ActionListener() {
+        btnAddCode.setText("Insert");
+        btnAddCode.setkBackGroundColor(new java.awt.Color(51, 51, 51));
+        btnAddCode.setkBorderRadius(100);
+        btnAddCode.setkForeGround(new java.awt.Color(102, 255, 0));
+        btnAddCode.setkHoverForeGround(new java.awt.Color(51, 0, 51));
+        btnAddCode.setkHoverStartColor(new java.awt.Color(204, 255, 204));
+        btnAddCode.setkPressedColor(new java.awt.Color(0, 51, 51));
+        btnAddCode.setkSelectedColor(new java.awt.Color(51, 255, 204));
+        btnAddCode.setkStartColor(new java.awt.Color(0, 0, 0));
+        btnAddCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnShowIntellActionPerformed(evt);
+                btnAddCodeActionPerformed(evt);
             }
         });
 
@@ -701,6 +714,8 @@ public final class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        txtInsertCode.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+
         javax.swing.GroupLayout codeSnippetPanelLayout = new javax.swing.GroupLayout(codeSnippetPanel);
         codeSnippetPanel.setLayout(codeSnippetPanelLayout);
         codeSnippetPanelLayout.setHorizontalGroup(
@@ -708,8 +723,10 @@ public final class Dashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, codeSnippetPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(btnActiveIntell, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnShowIntell, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtInsertCode)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAddCode, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, codeSnippetPanelLayout.createSequentialGroup()
                 .addContainerGap(59, Short.MAX_VALUE)
@@ -723,8 +740,9 @@ public final class Dashboard extends javax.swing.JFrame {
                 .addComponent(lblCodeSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(codeSnippetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnShowIntell, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActiveIntell, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActiveIntell, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtInsertCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -823,34 +841,37 @@ public final class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lblAppTime.setText("26/5 2 : AM");
+
         javax.swing.GroupLayout backGroundLayout = new javax.swing.GroupLayout(backGround);
         backGround.setLayout(backGroundLayout);
         backGroundLayout.setHorizontalGroup(
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backGroundLayout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(backGroundLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backGroundLayout.createSequentialGroup()
                         .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(conversation, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
-                                .addComponent(replyPane, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+                                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(backGroundLayout.createSequentialGroup()
+                                        .addGap(166, 166, 166)
+                                        .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblAppTime))
+                                    .addComponent(replyPane, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
-                                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(conversation, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE))
+                                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(friendListPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE))
+                    .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE)
+                    .addGroup(backGroundLayout.createSequentialGroup()
+                        .addComponent(btnShowMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(backGroundLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnShowMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         backGroundLayout.setVerticalGroup(
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -871,7 +892,9 @@ public final class Dashboard extends javax.swing.JFrame {
                                 .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAppTime))
                 .addContainerGap())
         );
 
@@ -988,15 +1011,15 @@ public final class Dashboard extends javax.swing.JFrame {
 
 //-----------------------------------END OF CHANGE THEME METHODS-------------------//
 //-----------------------------------KEY LISTENER EVENT----------------------------//
+    
     private void txtReplyKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReplyKeyPressed
         // TODO add your handling code here:
-        this.lblIsTyping.setText("userDIO is typing...");
+                this.lblIsTyping.setText("you are typing...");
     }//GEN-LAST:event_txtReplyKeyPressed
 
     private void txtReplyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReplyKeyReleased
         // TODO add your handling code here:
-        this.lblIsTyping.setText("");
-
+            this.lblIsTyping.setText("");
     }//GEN-LAST:event_txtReplyKeyReleased
 
     private void btnShowConnectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowConnectionActionPerformed
@@ -1053,14 +1076,18 @@ public final class Dashboard extends javax.swing.JFrame {
             kButtonI.setkForeGround(new Color(15, 15, 15, 40));
         });
     }//GEN-LAST:event_btnSetTansparentFontActionPerformed
-
-    private void btnBrowseFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseFontActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBrowseFontActionPerformed
     
-    private void btnShowIntellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowIntellActionPerformed
+    private void btnAddCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCodeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnShowIntellActionPerformed
+        if (!this.txtInsertCode.getText().equals("")) {
+            String input = this.txtInsertCode.getText();
+            keywords.add(input);
+            JOptionPane.showMessageDialog(this, "Added " + input);
+            autoComplete = new AutoComplete(this.txtReply, keywords);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please check input!");
+        }
+    }//GEN-LAST:event_btnAddCodeActionPerformed
     private void btnAddFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFileActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
@@ -1076,6 +1103,19 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private void btnActiveIntellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveIntellActionPerformed
         // TODO add your handling code here:
+        
+        autoComplete = new AutoComplete(this.txtReply, keywords);
+        this.txtReply.getDocument().addDocumentListener(autoComplete);
+        this.txtReply.getInputMap().put(KeyStroke.getKeyStroke("TAB"), COMMIT_ACTION);
+        this.txtReply.getActionMap().put(COMMIT_ACTION, autoComplete.new CommitAction());
+        String listOfCode="";
+        String concat="";
+        for (int i = 0; i < keywords.size(); i++) {
+            concat+= listOfCode.concat(keywords.get(i) + "\n");
+        }
+        JOptionPane.showMessageDialog(this, "Use tab key to auto-complete code snippet.\n List of code:\n" + concat);
+        
+        this.btnActiveIntell.setEnabled(false);
     }//GEN-LAST:event_btnActiveIntellActionPerformed
 
     /**
@@ -1120,8 +1160,8 @@ public final class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private keeptoo.KGradientPanel backGround;
     private keeptoo.KButton btnActiveIntell;
+    private keeptoo.KButton btnAddCode;
     private keeptoo.KButton btnAddFile;
-    private keeptoo.KButton btnBrowseFont;
     private keeptoo.KButton btnLogout;
     private keeptoo.KButton btnSend;
     private keeptoo.KButton btnSetGreenBackground;
@@ -1135,7 +1175,6 @@ public final class Dashboard extends javax.swing.JFrame {
     private keeptoo.KButton btnSetWhiteBackground;
     private keeptoo.KButton btnSetWhiteFont;
     private keeptoo.KButton btnShowConnection;
-    private keeptoo.KButton btnShowIntell;
     private keeptoo.KButton btnShowMenu;
     private keeptoo.KGradientPanel changeFontPanel;
     private keeptoo.KGradientPanel changeThemePanel;
@@ -1144,6 +1183,7 @@ public final class Dashboard extends javax.swing.JFrame {
     public javax.swing.JList<String> friendList;
     private keeptoo.KGradientPanel friendListPanel;
     private javax.swing.JScrollPane friendListScrollPane;
+    public javax.swing.JLabel lblAppTime;
     private javax.swing.JLabel lblChangeFont;
     private javax.swing.JLabel lblChangeTheme;
     private javax.swing.JLabel lblCodeSnippet;
@@ -1153,6 +1193,7 @@ public final class Dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane messageScrollPane;
     public javax.swing.JTextArea messageTextArea;
     private keeptoo.KGradientPanel replyPane;
+    private javax.swing.JTextField txtInsertCode;
     private javax.swing.JTextField txtReply;
     private keeptoo.KGradientPanel userPane;
     // End of variables declaration//GEN-END:variables

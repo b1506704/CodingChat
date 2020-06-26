@@ -134,8 +134,8 @@ public class LoginRegister extends javax.swing.JFrame {
             LoginRegister loginForm = new LoginRegister();
             loginForm.setBackground(new Color(0,0,0,0));
             loginForm.loginRegisterPanel.setBorder(null);
-            loginForm.loginRegisterPanel.setkStartColor(new Color(51, 100, 51, 40));
-            loginForm.loginRegisterPanel.setkEndColor(new Color(51, 100, 51, 40));
+            loginForm.loginRegisterPanel.setkStartColor(new Color(51, 100, 51, 20));
+            loginForm.loginRegisterPanel.setkEndColor(new Color(51, 100, 51, 20));
             loginForm.loginRegisterPanel.setOpaque(false);
             loginForm.txtIDPanel.setkFillBackground(false);
             loginForm.txtPasswordPanel.setkFillBackground(false);
@@ -143,7 +143,7 @@ public class LoginRegister extends javax.swing.JFrame {
             loginForm.txtID.setBackground(new Color(0,0,0,0));
             loginForm.txtPassword.setBorder(null);
             loginForm.txtPassword.setBackground(new Color(0,0,0,0));
-            
+            loginForm.txtServerIP.setBackground(new Color(0,0,0,0));
             //render and change icon of a button
             loginForm.keyBinding();
             
@@ -158,6 +158,8 @@ public class LoginRegister extends javax.swing.JFrame {
             loginForm.applyFont(loginForm.btnRegister,"VL COCO.OTF",25f);
             loginForm.applyFont(loginForm.btnHidePass,"FVF Fernando 08.ttf",8f);
             loginForm.applyFont(loginForm.btnLogout, "Vanessas Valentine.otf",40F);
+            loginForm.applyFont(loginForm.txtServerIP, "FVF Fernando 08.ttf", 10f);
+            loginForm.applyFont(loginForm.lblServerIP, "FVF Fernando 08.ttf",14f);
             //show frame
             loginForm.setVisible(true);
             loginForm.txtID.requestFocus();
@@ -189,6 +191,7 @@ public class LoginRegister extends javax.swing.JFrame {
         txtPasswordPanel = new keeptoo.KGradientPanel();
         txtPassword = new javax.swing.JPasswordField();
         txtServerIP = new javax.swing.JTextField();
+        lblServerIP = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -353,6 +356,9 @@ public class LoginRegister extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lblServerIP.setForeground(new java.awt.Color(255, 255, 0));
+        lblServerIP.setText("Server IP");
+
         javax.swing.GroupLayout loginRegisterPanelLayout = new javax.swing.GroupLayout(loginRegisterPanel);
         loginRegisterPanel.setLayout(loginRegisterPanelLayout);
         loginRegisterPanelLayout.setHorizontalGroup(
@@ -361,30 +367,36 @@ public class LoginRegister extends javax.swing.JFrame {
                 .addGap(110, 110, 110)
                 .addGroup(loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(loginRegisterPanelLayout.createSequentialGroup()
-                        .addComponent(lblID)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(loginRegisterPanelLayout.createSequentialGroup()
-                        .addGroup(loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIDPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
-                            .addGroup(loginRegisterPanelLayout.createSequentialGroup()
-                                .addComponent(lblPassword)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtPasswordPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnHidePass, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
-                    .addGroup(loginRegisterPanelLayout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                         .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136))))
+                        .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginRegisterPanelLayout.createSequentialGroup()
+                        .addGroup(loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, loginRegisterPanelLayout.createSequentialGroup()
+                                .addComponent(lblID)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblServerIP)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtServerIP, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtIDPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, loginRegisterPanelLayout.createSequentialGroup()
+                                .addComponent(lblPassword)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtPasswordPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnHidePass, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))))
         );
         loginRegisterPanelLayout.setVerticalGroup(
             loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginRegisterPanelLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(lblID)
+                .addGap(19, 19, 19)
+                .addGroup(loginRegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblID)
+                    .addComponent(txtServerIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblServerIP))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtIDPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -408,22 +420,20 @@ public class LoginRegister extends javax.swing.JFrame {
         backGroundLayout.setHorizontalGroup(
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backGroundLayout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(loginRegisterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, backGroundLayout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(lblTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(backGroundLayout.createSequentialGroup()
+                                .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(105, 105, 105))
+                            .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, backGroundLayout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(loginRegisterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 100, Short.MAX_VALUE))
-            .addGroup(backGroundLayout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(lblTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backGroundLayout.createSequentialGroup()
-                        .addComponent(lblTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtServerIP, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backGroundLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         backGroundLayout.setVerticalGroup(
             backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,9 +449,7 @@ public class LoginRegister extends javax.swing.JFrame {
                                 .addGap(31, 31, 31)
                                 .addComponent(lblTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addComponent(txtServerIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)))
                 .addComponent(loginRegisterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59))
         );
@@ -596,6 +604,7 @@ public class LoginRegister extends javax.swing.JFrame {
     private keeptoo.KButton btnRegister;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblServerIP;
     private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblTitle2;
     private keeptoo.KGradientPanel loginRegisterPanel;
