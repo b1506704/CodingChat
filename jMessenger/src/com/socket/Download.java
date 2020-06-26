@@ -3,6 +3,8 @@ package com.socket;
 import com.ui.Dashboard;
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Download implements Runnable{
     
@@ -43,8 +45,9 @@ public class Download implements Runnable{
             }
             
             Out.flush();
-            
-            ui.messageTextArea.append("[Application > Me] : Download complete\n");
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
+            ui.messageTextArea.append("[Application > Me] : Download complete"+"     \n\t\t\t\t[" + formatter.format(date)+  "]\n");
             
             if(Out != null){ Out.close(); }
             if(In != null){ In.close(); }

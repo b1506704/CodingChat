@@ -4,6 +4,9 @@ import com.ui.Dashboard;
 import java.io.*;
 import java.net.*;
 import com.ui.LoginRegister;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 public class SocketClient implements Runnable{
@@ -15,6 +18,8 @@ public class SocketClient implements Runnable{
     public Dashboard chatUI;
     public ObjectInputStream In;
     public ObjectOutputStream Out;
+    public SimpleDateFormat formatter;  
+    public Date date;
     public SocketClient(LoginRegister loginRegister) throws IOException{
         logUI = loginRegister; 
         this.serverAddr = logUI.getServerAddr(); 
@@ -24,7 +29,6 @@ public class SocketClient implements Runnable{
         Out = new ObjectOutputStream(socket.getOutputStream());
         Out.flush();
         In = new ObjectInputStream(socket.getInputStream());
-        
     }
     
     @Override
@@ -36,10 +40,14 @@ public class SocketClient implements Runnable{
                 System.out.println("Incoming : "+msg.toString());
                 if(msg.type.equals("message")){
                     if(msg.recipient.equals(logUI.getUsername())){
-                        chatUI.messageTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content +"2 gio"+"\n" );
+                        formatter = new SimpleDateFormat("HH:mm:ss");
+                        date = new Date();
+                        chatUI.messageTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content +"\n\t\t\t\t[" + formatter.format(date)+ "]\n" );
                     }
                     else{
-                        chatUI.messageTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content + "\n");
+                        formatter = new SimpleDateFormat("HH:mm:ss");
+                        date = new Date();
+                        chatUI.messageTextArea.append("["+ msg.sender +" > "+ msg.recipient +"] : " + msg.content +"\n\t\t\t\t[" + formatter.format(date)+  "]\n");
                     }
                 }
                 else if(msg.type.equals("login")){
@@ -78,8 +86,10 @@ public class SocketClient implements Runnable{
                         logUI.clientThread.stop();
                     }
                     else{
+                        formatter = new SimpleDateFormat("HH:mm:ss");
+                        date = new Date();
                         chatUI.model.removeElement(msg.content);
-                        chatUI.messageTextArea.append("["+ msg.sender +" > All] : "+ msg.content +" has signed out\n");
+                        chatUI.messageTextArea.append("["+ msg.sender +" > All] : "+ msg.content +" has signed out" + "\n\t\t\t\t[" + formatter.format(date)+  "]\n");
                     }
                 }
                 else if(msg.type.equals("upload_req")){
