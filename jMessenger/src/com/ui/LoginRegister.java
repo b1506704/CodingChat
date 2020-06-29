@@ -144,7 +144,7 @@ public class LoginRegister extends javax.swing.JFrame {
             loginForm.txtPassword.setBorder(null);
             loginForm.txtPassword.setBackground(new Color(0,0,0,0));
             loginForm.txtServerIP.setBackground(new Color(0,0,0,0));
-            //render and change icon of a button
+            //ket binding for login button
             loginForm.keyBinding();
             
             //apply fonts
@@ -482,7 +482,7 @@ public class LoginRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseDragged
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        //add ID and Password to Socket and database
+        //add ID and Password to Socket stream and database
         serverAddr = this.txtServerIP.getText();
         if (!txtID.getText().equals("") && !txtPassword.getText().equals("")) {
                     setUsername(txtID.getText().trim());
@@ -495,8 +495,8 @@ public class LoginRegister extends javax.swing.JFrame {
                              clientThread.start();
                              client.send(new Message("signup", getUsername(), getPassword(), "SERVER"));
                         }
-                       catch(Exception ex){
-                           
+                       catch(IOException ex){
+                           JOptionPane.showMessageDialog(rootPane, "No server found!");
                         }
                 } 
         } else {

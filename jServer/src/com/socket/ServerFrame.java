@@ -1,8 +1,5 @@
 package com.socket;
 
-import java.awt.Color;
-import javax.swing.UIManager;
-
 public class ServerFrame extends javax.swing.JFrame {
 
     public SocketServer server;
@@ -12,11 +9,6 @@ public class ServerFrame extends javax.swing.JFrame {
         initComponents();     
         socketLog.setEditable(false);
     }
-    
-    public boolean isWin32(){
-        return System.getProperty("os.name").startsWith("Windows");
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -77,14 +69,6 @@ public class ServerFrame extends javax.swing.JFrame {
     }
     
     public static void main(String args[]) {
-
-        try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch(Exception ex){
-            System.out.println("Look & Feel Exception");
-        }
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

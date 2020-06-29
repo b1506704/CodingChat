@@ -87,7 +87,6 @@ public final class Dashboard extends javax.swing.JFrame {
     public DefaultListModel model;
     public File file;
     public String fileStr;
-    public String fontStr;
     public SocketClient client;
     private int port;
     private String serverAddr;
@@ -163,7 +162,7 @@ public final class Dashboard extends javax.swing.JFrame {
             //keybinding
             this.keyBinding();
             //Java Intellsense
-            this.messageTextArea.setFocusTraversalKeysEnabled(false);
+            
             keywords = new ArrayList<>(100);
             keywords.add("system.out.println()");
             keywords.add("for (int i=0; i<=n ; i++) { }");
@@ -892,9 +891,10 @@ public final class Dashboard extends javax.swing.JFrame {
                                 .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnAddFile, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAppTime))
+                .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAppTime)
+                    .addGroup(backGroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblIsTyping, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -934,7 +934,7 @@ public final class Dashboard extends javax.swing.JFrame {
             
         }  catch (Exception ex) { 
                  
-           }
+        }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
@@ -955,7 +955,6 @@ public final class Dashboard extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_txtReplyMouseClicked
-    //remove this later
     int count = 0;
     private void btnShowMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowMenuActionPerformed
         // TODO add your handling code here:
@@ -1103,7 +1102,7 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private void btnActiveIntellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveIntellActionPerformed
         // TODO add your handling code here:
-        
+        this.txtReply.setFocusTraversalKeysEnabled(false);
         autoComplete = new AutoComplete(this.txtReply, keywords);
         this.txtReply.getDocument().addDocumentListener(autoComplete);
         this.txtReply.getInputMap().put(KeyStroke.getKeyStroke("TAB"), COMMIT_ACTION);

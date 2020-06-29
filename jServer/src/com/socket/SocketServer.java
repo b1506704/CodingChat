@@ -77,34 +77,31 @@ public class SocketServer implements Runnable {
     public Thread       thread = null;
     public int clientCount = 0, port = 13000;
     public ServerFrame ui;
-   // public Database db;
     public DatabaseSQL dbSQL = new DatabaseSQL();
 
     public SocketServer(ServerFrame frame){
         //number of running clients
         clients = new ServerThread[50];
         ui = frame;
-        //db = new Database(ui.filePath);
          
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();
 	    ui.socketLog.append("Server startet. IP : " + InetAddress.getLocalHost() + ", Port : " + server.getLocalPort());
-	    start(); 
+	    //start thread
+            start(); 
         }
 	catch(IOException ioe){  
             ui.socketLog.append("Can not bind to port : " + port + "\nRetrying"); 
             ui.RetryStart(0);
 	}
     }
-    
+    //for retrying with port
     public SocketServer(ServerFrame frame, int Port){
        
         clients = new ServerThread[50];
         ui = frame;
         port = Port;
-       // db = new Database(ui.filePath);
-        
 	try{  
 	    server = new ServerSocket(port);
             port = server.getLocalPort();

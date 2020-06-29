@@ -4,7 +4,6 @@ import com.ui.Dashboard;
 import java.io.*;
 import java.net.*;
 import com.ui.LoginRegister;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFileChooser;
@@ -51,6 +50,7 @@ public class SocketClient implements Runnable{
                     }
                 }
                 else if(msg.type.equals("login")){
+                    //found user in database
                     if(msg.content.equals("TRUE")){
                         chatUI = new Dashboard(this);
                         chatUI.setUsername(logUI.getUsername());
@@ -105,7 +105,6 @@ public class SocketClient implements Runnable{
                             Download dwn = new Download(saveTo, chatUI);
                             Thread t = new Thread(dwn);
                             t.start();
-                            //send(new Message("upload_res", (""+InetAddress.getLocalHost().getHostAddress()), (""+dwn.port), msg.sender));
                             send(new Message("upload_res", logUI.getUsername(), (""+dwn.port), msg.sender));
                         }
                         else{
